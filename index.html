@@ -1,0 +1,175 @@
+<html>
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQN5VLK213"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RQN5VLK213');
+  </script>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="dist/css/formio.full.min.css" />
+  <link rel="stylesheet" href="dist/css/cookieconsent.css" />
+  <link rel="stylesheet" href="dist/css/boxicons.min.css" />
+  <link rel="stylesheet" href="css/menu.min.css" />
+  <link rel="stylesheet" href="css/main.min.css" />
+  <script src="dist/cookieconsent.umd.js"></script>
+  <script src="dist/firebase-app-compat.js"></script>
+  <script src="dist/firebase-auth-compat.js"></script>
+  <script src="js/auth_config.min.js"></script>
+  <script src="js/redb.min.js"></script>
+  <script src="js/core.min.js"></script>
+  <script src="js/util_form.min.js"></script>
+  <script src="js/util_io.min.js"></script>
+  <script src="js/layout.min.js"></script>
+  <script src="dist/math.js"></script>
+  <script src="dist/formio.full.min.js"></script>
+  <script src="dist/apexcharts.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+  <script src="dist/cookieconsent-config.js"></script>
+  <div class="navbar-wrapper">
+    <nav>
+      <div class="navbar">
+        <i class="bx bx-menu"></i>
+        <div class="logo"><a href="https://www.loms.cz/">LOMS</a><a href="https://www.loms.cz/" id="module_name">&nbsp;&nbsp;&nbsp;&nbsp;Judd–Ofelt analysis v1.0</a></div>
+        <div class="nav-links">
+          <div class="sidebar-logo">
+            <span class="logo-name">LOMS</span>
+            <i class="bx bx-x"></i>
+          </div>
+          <ul class="links">
+            <li>
+            <li><a href="#">Judd–Ofelt analysis v1.0</a></li>
+            </li>
+            <li>
+              <a href="https://www.loms.cz/user-guide/">User guide</a>
+              <i class="bx bxs-chevron-down js-arrow arrow"></i>
+              <ul class="js-sub-menu sub-menu">
+                <li><a href="https://www.loms.cz/user-guide/#">Getting started</a></li>
+                <li><a href="https://www.loms.cz/user-guide/#">Model documentation</a></li>
+                <li><a href="https://www.loms.cz/user-guide/#">Reference datasets</a></li>
+                <li><a href="https://www.loms.cz/user-guide/#">Troubleshooting</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="https://www.loms.cz/about/">About LOMS</a>
+              <i class="bx bxs-chevron-down js-arrow arrow"></i>
+              <ul class="js-sub-menu sub-menu">
+                <li><a href="https://www.loms.cz/FAQ/">FAQ</a></li>
+                <li><a href="https://www.loms.cz/citation/">Citation</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Contact us</a></li>
+          </ul>
+        </div>
+        <div class="login-box">
+          <li style="list-style-type: none"><span id="login-info-user" style="color: #fff;"></span><i class="bx bx-user" style="line-height: 20px;"></i></li>
+          <div class="input-box">
+            <div id="login-signup-area">
+              <input style="display:block;width:auto;" type="text" id="email" name="email" placeholder="Email" />
+              <br>
+              <input style="display:block;width:auto;" type="password" id="password" name="password" placeholder="Password" />
+              <br>
+              <div id="userinfoextended" style="display:none;">
+                <input style="display:block;width:auto;" type="text" id="displayorcid" name="displayorcid" placeholder="ORCID" />
+                <br>
+                <input style="display:block;width:auto;" type="text" id="displayname" name="displayname" placeholder="Name" />
+                <br>
+                <input style="display:block;width:auto;" type="text" id="displayaffiliation" name="displayaffiliation" placeholder="Affiliation" />
+                <br>
+                <div style="display:table-row;">
+                  <span style="display:table-cell; vertical-align:middle;">
+                    <input style="margin-left: -90px; margin-right: -110px;" type="checkbox" id="policyagreement" name="policyagreement" />
+                  </span> 
+                  <label for="policyagreement" style="display:table-cell; width: 190px;">I agree to the <a href="https://www.loms.cz/privacy-policy/" style="color:#fff;">privacy policy</a>.</label>
+                </div>
+                <br>
+              </div>
+              <div style="margin-left:33px;">
+                <button disabled class="login-box-button" id="login-widget-sign-in" name="signin" style="margin-bottom:10px;">Sign In</button>
+                &nbsp;&nbsp;&nbsp;
+                <button disabled class="login-box-button" id="login-widget-sign-up" name="signup" style="margin-bottom:10px;">Sign Up</button>
+                <br>
+                <span id="login-notice"></span>
+                <a href="#" id="login-widget-password-reset">Reset password</a>
+              </div>
+            </div>
+            <div id="loggedin-area" style="margin-left:33px; display: none; color: #fff;">
+              <span id="loggedin-area-name" style="font-weight: bold;"></span>
+              <br><br>
+              <span id="loggedin-area-email"></span>
+              <br><br>
+              <span id="loggedin-area-affiliation" style="font-style: italic;"></span>
+              <br><br>
+              <span id="loggedin-area-orcid"></span>
+              <br><br>
+              <button class="login-box-button" id="login-widget-sign-out" name="signout" style="margin-bottom:10px;">Sign Out</button>&nbsp;&nbsp;&nbsp;
+              <button class="login-box-button" id="login-widget-change-profile" name="change-profile" style="margin-bottom:10px;">Edit profile</button>
+            </div>
+            <div id="loggedin-area-edit" style=" display: none; color: #fff;">
+              <input style="display:block;width:auto;" type="text" id="displayorcidedit" name="displayorcidedit" placeholder="ORCID" />
+              <br>
+              <input style="display:block;width:auto;" type="text" id="displaynameedit" name="displaynameedit" placeholder="Name" />
+              <br>
+              <input style="display:block;width:auto;" type="text" id="displayaffiliationedit" name="displayaffiliationedit" placeholder="Affiliation" />
+              <br>
+              <button class="login-box-button" id="login-widget-change-profile-save" name="change-profile-save" style="margin-left:33px;margin-bottom:10px;">Save</button>&nbsp;&nbsp;&nbsp;
+              <button class="login-box-button" id="login-widget-reset-pass2" name="reset-pass2" style="margin-bottom:10px;">Reset password</button><br>
+              <button class="login-box-button" id="login-widget-delete-account" name="delete-account" style="margin-left:33px;margin-bottom:10px;background-color:#dc3545;">Delete account</button>
+            </div>
+          </div>
+        </div><i class="bx bx-printer" style="line-height: 20px;" onclick="window.print();"></i>
+      </div>
+    </nav>
+  </div>
+  <div id="overlayloading"></div>
+  <div id="formio" class="showless"></div>
+  <div class="help-button-wrapper">
+    <ul class="help-list">
+      <li><a href="https://www.loms.cz/user-guide/">Open step-by-step guide</a></li>
+      <li><a href="https://www.loms.cz/citation/">Reference article</a></li>
+      <li><a href="https://www.loms.cz/about/">Documentation</a></li>
+    </ul>
+    <button class="help-button">
+      <span>?</span>
+    </button>
+  </div>
+  <script type="text/javascript">
+    var userLoggedIn = false;
+    var formRef = 0;
+    var mtxCacheOutput = [0, 0, 0];
+    var linkCombinations = 0, linkTranstions = 0; linkJO = 0;
+    var chart1 = 0, chart2 = 0, chart3 = 0, chart4 = 0, chart5 = 0, chart6 = 0;
+    var currentTab = 0, re_edit = "Er", ref_REDB = elementJson.Er, ref_REDB_transitions = transitionsElementJson.Er;
+    processTabQuery();
+    Formio.createForm(document.getElementById("formio"), formLayout).then(function (form) {
+      formRef = form;
+      form.getComponent("tabs").setTab(currentTab);
+      document.getElementById("overlayloading").style.display = "none";
+      form.nosubmit = true;  
+      form.on("change", processChange);    
+      form.on("calculateTransitions", calcTranstions);
+      form.on("calculateCombinations", calcCombinations);
+      form.on("downloadReferenceData", downloadReferenceData);
+      form.on("downloadTemplateData", downloadTemplateData);
+      form.on("downloadReportJO", generateJOreport);
+      form.on("downloadReportCombinations", generateCombinationsReport);
+      form.on("downloadReportTransitions", generateTransitionsReport); 
+      form.on("render", function (submission) {
+        document.getElementById("overlayloading").style.display = "none";
+      });          
+    });
+  </script>
+  <hr />   
+  <footer style="text-align: center;width: 66%;margin: 0 auto;">
+    <img src="img/by-nc.png" style="height:1.5em; display:inline-block; padding-right: 1.6em;" />
+    <p style="height:1em; display:inline-block; font-size: small;" >Except where otherwise noted, this website is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0">Creative Commons Attribution NonCommercial 4.0 License</a>. By using this website, you agree with our <a href="https://www.loms.cz/privacy-policy/">privacy policy</a>.</p>
+    <p style="font-size: small;">Works published using this LOMS online tool shall reference "J.Hrabovsky, P. Varak, R. Krystufek, LOMS: interactive online software for classical and combinatorial Judd-Ofelt analysis. Identification of suitable rare-earth manifold combinations for Judd-Ofelt analysis, submitted to Scientific Reports, 15. July 2024.</p>
+  </footer>
+  <script src="js/menu.min.js"></script>
+  <script src="js/auth.min.js"></script>
+</body>
+</html>
