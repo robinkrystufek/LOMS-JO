@@ -9,6 +9,7 @@ This repository hosts the interactive online tool for performing Judd–Ofelt an
 - Transitional analysis
 - Step-by-step user guide
 - Reference datasets for validation
+- Front-end only JS+HTML design, ensuring data is processed locally without uploading requirements
 - For more information, visit the LOMS [website][LOMSJO]
 
 ## Credits
