@@ -23,7 +23,7 @@ Following libraries and their dependencies were used:
 - Boxicons https://github.com/atisawd/boxicons
 
 ## License
-This work is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License][cc-by-nc]. See the [LICENCE][licence] file for more info.
+This work is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License][cc-by-nc]. See the [LICENSE][licence] file for more info.
 
 [![CC BY-NC 4.0][cc-by-nc-image]][cc-by-nc]
 
