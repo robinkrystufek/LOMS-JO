@@ -274,7 +274,7 @@ function calcCombinationsWorker() {
                     errorComp = true;
                     console.log(err.message);
                 }
-                if (errorComp) {
+                if (errorComp || outputMtx[0] == NaN || outputMtx[1] == NaN || outputMtx[2] == NaN) {
                     csvString += `${k},${labelGraphNoFormat},${transListNoFormat},N/A,N/A,N/A\n`;
                     reportString += "<td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>";
                 } 
@@ -287,9 +287,9 @@ function calcCombinationsWorker() {
                     seriesData.jo2.push({ x: k, y: mtxCacheOutput[0] });
                     seriesData.jo4.push({ x: k, y: mtxCacheOutput[1] });
                     seriesData.jo6.push({ x: k, y: mtxCacheOutput[2] });
-                    seriesData.jo2jo4.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[1] });
-                    seriesData.jo2jo6.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[2] });
-                    seriesData.jo4jo6.push({ x: k, y: mtxCacheOutput[1] / mtxCacheOutput[2] });
+                    if(mtxCacheOutput[1] != 0) seriesData.jo2jo4.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[1] });
+                    if(mtxCacheOutput[2] != 0) seriesData.jo2jo6.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[2] });
+                    if(mtxCacheOutput[2] != 0) seriesData.jo4jo6.push({ x: k, y: mtxCacheOutput[1] / mtxCacheOutput[2] });
                     reportString += `<td>${mtxCacheOutput[0].toPrecision(3)}</td><td>${mtxCacheOutput[1].toPrecision(3)}</td><td>${mtxCacheOutput[2].toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[1]).toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${(mtxCacheOutput[1] / mtxCacheOutput[2]).toPrecision(3)}</td></tr>`;
                 }
             }

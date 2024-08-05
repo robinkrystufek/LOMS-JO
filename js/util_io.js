@@ -33,6 +33,7 @@ function generateJOreport() {
         }
         break;
     }
+    browserCheck();
     linkJO = document.createElement("a");
     linkJO.setAttribute("href", encodeURI(csvString));
     if(formRef.data.sampleName != "") linkJO.setAttribute("download", formRef.data.sampleName + "_JO_export.csv");
@@ -48,6 +49,7 @@ function generateCombinationsReport() {
 }
 function downloadTemplateData() {
     if (filenamesTemplate.hasOwnProperty(re_edit)) {
+        browserCheck();
         var link = document.createElement("a");
         link.setAttribute("href", filenamesTemplate[re_edit]);
         link.setAttribute("download", filenamesTemplate[re_edit]);
@@ -58,6 +60,7 @@ function downloadTemplateData() {
 }
 function downloadReferenceData() {
     if (filenamesReference.hasOwnProperty(re_edit)) {
+        browserCheck();
         var link = document.createElement("a");
         link.setAttribute("href", filenamesReference[re_edit]);
         link.setAttribute("download", filenamesReference[re_edit]);
@@ -66,7 +69,9 @@ function downloadReferenceData() {
         link.click();
     }
 }
-
+function browserCheck() {
+    if(window.safari !== undefined) alert("Safari does not support downloading files from this application with proper filename. File content is not affected. Please append .csv extension to the downloaded file name or use another browser.");
+}
 // import functions
 function importArrayCSV(arr) {
     const dimensions = [arr.length, arr[0].length];
@@ -178,13 +183,19 @@ function updateProgressBar(value) {
     var progressBar = document.getElementById("overlay-progress-bar");
     progressBar.style.width = value + "%";
     progressBar.style.display = "block";
+    var progressComment = document.getElementById("overlay-progress-comment");
+    progressComment.style.display = "block";
 }
 function showProgressBar() {
     var progressBar = document.getElementById("overlay-progress-bar");
     progressBar.style.display = "block";
+    var progressComment = document.getElementById("overlay-progress-comment");
+    progressComment.style.display = "block";
 }
 function hideProgressBar() {
     var progressBar = document.getElementById("overlay-progress-bar");
     progressBar.style.width = "0%";
     progressBar.style.display = "none";
+    var progressComment = document.getElementById("overlay-progress-comment");
+    progressComment.style.display = "none";
 }

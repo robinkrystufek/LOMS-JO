@@ -77,7 +77,16 @@
   display: none;
   z-index: 999;
 }
-
+#overlay-progress-comment {
+  position: fixed; 
+  bottom: 50px; 
+  left: 0; 
+  width: 100%; 
+  text-align: center;
+  height: 20px; 
+  display: none;
+  z-index: 999;
+}
 .help-button-wrapper {
   position: fixed;
   bottom: 20px;
