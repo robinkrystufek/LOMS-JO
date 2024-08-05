@@ -7,7 +7,7 @@ This repository hosts the interactive online tool for performing Judd–Ofelt an
 ## Features
 - Classical and combinatorial Judd–Ofelt analysis
 - Transitional analysis
-- Step-by-step user guide
+- Step-by-step [user guide][doc]
 - Reference datasets for validation
 - Front-end only JS+HTML design, ensuring data is processed locally without uploading requirements
 - For more information, visit the LOMS [website][LOMSJO]
@@ -27,6 +27,7 @@ This work is licensed under a [Creative Commons Attribution-NonCommercial-NoDeri
 
 [![CC BY-NC-ND 4.0][cc-by-nc-nd-image]][cc-by-nc-nd]
 
+[doc]: https://www.loms.cz/modules/judd-ofelt-analysis/
 [LOMSJO]: https://www.loms.cz/jo/
 [licence]: https://github.com/robinkrystufek/LOMS-JO/blob/main/LICENSE
 [cc-by-nc-nd]: https://creativecommons.org/licenses/by-nc-nd/4.0/
