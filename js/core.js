@@ -164,7 +164,11 @@ function calcTranstions() {
 function calcCombinations() {
     document.getElementById("overlayloading").style.display = "block";
     showProgressBar();  
-    calcCombinationsWorker();
+    progressPercent = 10;
+    updateProgressBar(progressPercent);
+    setTimeout(function () {
+        calcCombinationsWorker();
+    }, 100); 
 } 
 function calcCombinationsWorker() {
     const totalCombLimit = 10000000000;
@@ -224,7 +228,7 @@ function calcCombinationsWorker() {
                     if (item.done) break;
                 }
                 k++;
-                const currentProgressPercent = Math.round((k / targetComb) * 40);
+                const currentProgressPercent = Math.round((k / targetComb) * 30) + 10;
                 if (currentProgressPercent > progressPercent) {
                     progressPercent = currentProgressPercent;
                     updateProgressBar(progressPercent);
