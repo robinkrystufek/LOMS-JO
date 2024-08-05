@@ -1,4 +1,4 @@
-[![CC BY-NC 4.0][cc-by-nc-shield]][cc-by-nc]
+[![CC BY-NC-ND 4.0][cc-by-nc-nd-shield]][cc-by-nc-nd]
 
 # [LOMS Judd–Ofelt analysis suite][LOMSJO]
 
@@ -23,12 +23,12 @@ Following libraries and their dependencies were used:
 - Boxicons https://github.com/atisawd/boxicons
 
 ## License
-This work is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License][cc-by-nc]. See the [LICENSE][licence] file for more info.
+This work is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License][cc-by-nc-nd]. See the [LICENSE][licence] file for more info.
 
-[![CC BY-NC 4.0][cc-by-nc-image]][cc-by-nc]
+[![CC BY-NC-ND 4.0][cc-by-nc-nd-image]][cc-by-nc-nd]
 
 [LOMSJO]: https://www.loms.cz/jo/
 [licence]: https://github.com/robinkrystufek/LOMS-JO/blob/main/LICENSE
-[cc-by-nc]: https://creativecommons.org/licenses/by-nc/4.0/
-[cc-by-nc-image]: https://licensebuttons.net/l/by-nc/4.0/88x31.png
-[cc-by-nc-shield]: https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg
+[cc-by-nc-nd]: https://creativecommons.org/licenses/by-nc-nd/4.0/
+[cc-by-nc-nd-image]: https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png
+[cc-by-nc-nd-shield]: https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg
