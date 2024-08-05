@@ -3,7 +3,7 @@ const constPi = 3.141592654;
 const constE = 1.51891e-11;
 const constM = 9.1093837015e-31;
 const constH = 6.62607015e-30;
-const constA = 0.00728798180007702;
+const constA = 0.00729798180007702;
 const constY = 7.96246532e-2;
 const listRE = [
   "Er",
