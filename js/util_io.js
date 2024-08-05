@@ -49,7 +49,7 @@ function generateCombinationsReport() {
 }
 function downloadTemplateData() {
     if (filenamesTemplate.hasOwnProperty(re_edit)) {
-        browserCheck();
+        browserCheck(filenamesReference[re_edit].split('.').pop());
         var link = document.createElement("a");
         link.setAttribute("href", filenamesTemplate[re_edit]);
         link.setAttribute("download", filenamesTemplate[re_edit]);
@@ -60,7 +60,7 @@ function downloadTemplateData() {
 }
 function downloadReferenceData() {
     if (filenamesReference.hasOwnProperty(re_edit)) {
-        browserCheck();
+        browserCheck(filenamesReference[re_edit].split('.').pop());
         var link = document.createElement("a");
         link.setAttribute("href", filenamesReference[re_edit]);
         link.setAttribute("download", filenamesReference[re_edit]);
@@ -69,8 +69,8 @@ function downloadReferenceData() {
         link.click();
     }
 }
-function browserCheck() {
-    if(window.safari !== undefined) alert("Safari does not support downloading files from this application with proper filename. File content is not affected. Please append .csv extension to the downloaded file name or use another browser.");
+function browserCheck(ext = "csv") {
+    if(window.safari !== undefined) alert("Safari does not support downloading files from this application with proper filename. File content is not affected. Please append ."+ext+" extension to the downloaded file name or use another browser.");
 }
 // import functions
 function importArrayCSV(arr) {
