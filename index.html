@@ -21,7 +21,7 @@
   <script src="js/redb.min.js"></script>
   <script src="js/core.min.js"></script>
   <script src="js/util_form.min.js"></script>
-  <script src="js/util_io.min.js"></script>
+  <script src="js/util_io.min.js">    </script>
   <script src="js/layout.min.js"></script>
   <script src="dist/math.js"></script>
   <script src="dist/formio.full.min.js"></script>
@@ -44,25 +44,25 @@
             <li>
             <li><a href="#">Judd–Ofelt analysis v1.0</a></li>
             </li>
+            <li><a href="https://www.loms.cz/jo-database/">JO parameter database</a></li>
             <li>
-              <a href="https://www.loms.cz/user-guide/">User guide</a>
+              <a href="https://www.loms.cz/modules/judd-ofelt-analysis/">User guide</a>
               <i class="bx bxs-chevron-down js-arrow arrow"></i>
               <ul class="js-sub-menu sub-menu">
-                <li><a href="https://www.loms.cz/user-guide/#">Getting started</a></li>
-                <li><a href="https://www.loms.cz/user-guide/#">Model documentation</a></li>
-                <li><a href="https://www.loms.cz/user-guide/#">Reference datasets</a></li>
-                <li><a href="https://www.loms.cz/user-guide/#">Troubleshooting</a></li>
+                <li><a href="https://www.loms.cz/modules/judd-ofelt-analysis/">Module documentation</a></li>
+                <li><a href="https://www.loms.cz/FAQ/">FAQ</a></li>
               </ul>
             </li>
             <li>
               <a href="https://www.loms.cz/about/">About LOMS</a>
               <i class="bx bxs-chevron-down js-arrow arrow"></i>
               <ul class="js-sub-menu sub-menu">
-                <li><a href="https://www.loms.cz/FAQ/">FAQ</a></li>
+                <li><a href="https://www.loms.cz/privacy-policy/">Privacy policy</a></li>
+                <li><a href="https://www.loms.cz/about/#TC">Terms and conditions</a></li>
                 <li><a href="https://www.loms.cz/citation/">Citation</a></li>
+                <li><a href="mailto:info@loms.cz">Contact us</a></li>
               </ul>
             </li>
-            <li><a href="#">Contact us</a></li>
           </ul>
         </div>
         <div class="login-box">
@@ -126,12 +126,14 @@
     </nav>
   </div>
   <div id="overlayloading"></div>
+  <div id="overlay-progress-bar"></div>
   <div id="formio" class="showless"></div>
   <div class="help-button-wrapper">
     <ul class="help-list">
-      <li><a href="https://www.loms.cz/user-guide/">Open step-by-step guide</a></li>
+      <li><a href="https://www.loms.cz/user-guide/">Step-by-step guide</a></li>
+      <li><a href="https://www.loms.cz/modules/judd-ofelt-analysis/">Documentation</a></li>
+      <li><a href="https://www.loms.cz/FAQ/">FAQ</a></li>
       <li><a href="https://www.loms.cz/citation/">Reference article</a></li>
-      <li><a href="https://www.loms.cz/about/">Documentation</a></li>
     </ul>
     <button class="help-button">
       <span>?</span>
@@ -164,10 +166,10 @@
     });
   </script>
   <hr />   
-  <footer style="text-align: center;width: 66%;margin: 0 auto;">
-    <img src="img/by-nc.png" style="height:1.5em; display:inline-block; padding-right: 1.6em;" />
-    <p style="height:1em; display:inline-block; font-size: small;" >Except where otherwise noted, this website is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0">Creative Commons Attribution NonCommercial 4.0 License</a>. By using this website, you agree with our <a href="https://www.loms.cz/privacy-policy/">privacy policy</a>.</p>
-    <p style="font-size: small;">Works published using this LOMS online tool shall reference "J.Hrabovsky, P. Varak, R. Krystufek, LOMS: interactive online software for classical and combinatorial Judd-Ofelt analysis. Identification of suitable rare-earth manifold combinations for Judd-Ofelt analysis, submitted to Scientific Reports, 15. July 2024.</p>
+  <footer style="text-align: center;width: 71%;margin: 0 auto;">
+    <img src="img/by-nc-nd.png" style="height:1.5em; display:inline-block; padding-right: 1.6em;" />
+    <p style="height:1em; display:inline-block; font-size: small;" >Except where otherwise noted, this website is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution NonCommercial NoDerivatives 4.0 License</a>. By using this website, you agree with our <a href="https://www.loms.cz/privacy-policy/">privacy policy</a>.</p>
+    <p style="font-size: small;">Works published using this LOMS online tool shall reference: J.Hrabovsky, P. Varak, R. Krystufek, LOMS: interactive online software for Classical and Combinatorial Judd-Ofelt analysis with integrated database of Judd-Ofelt parameters, preprint, 8. August 2024</p>
   </footer>
   <script src="js/menu.min.js"></script>
   <script src="js/auth.min.js"></script>

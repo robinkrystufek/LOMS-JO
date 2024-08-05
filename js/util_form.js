@@ -197,7 +197,7 @@ function getOptions(labelGraphList, seriesJO, seriesName, seriesColor) {
     };
     return options;
 }
-function renderGraph(seriesData, labelGraphList) {
+async function renderGraph(seriesData, labelGraphList) {
     const chartIds = ["#chart1", "#chart2", "#chart3", "#chart4", "#chart5", "#chart6"];
     const chartOptions = [
         getOptions(labelGraphList, seriesData.jo2, "JO2", "rgb(255, 71, 125)"),
@@ -210,9 +210,23 @@ function renderGraph(seriesData, labelGraphList) {
     for (let i = 0; i < chartIds.length; i++) {
         const chartElement = document.querySelector(chartIds[i]);
         if (chartElement) {
-        chartElement.innerHTML = "";
-        window[`chart${i+1}`] = new ApexCharts(chartElement, chartOptions[i]);
-        window[`chart${i+1}`].render();
+            chartElement.innerHTML = "";
+            window[`chart${i+1}`] = new ApexCharts(chartElement, chartOptions[i]);
+            await renderGraphAsync(window[`chart${i+1}`]).then(() => {
+                progressPercent += 10;
+                updateProgressBar(progressPercent);
+                if(progressPercent == 100) {
+                    document.getElementById("overlayloading").style.display = "none";
+                    progressPercent = 0;
+                    hideProgressBar();
+                }
+            });
         }
     }
+}
+function renderGraphAsync(element) {
+    return new Promise(resolve => setTimeout(() => {
+        element.render();
+        resolve();
+    }));
 }

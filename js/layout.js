@@ -1179,7 +1179,7 @@ const formLayout = {
                         refreshOnChange: false,
                         key: "htmlspan1",
                         content:
-                          "<i data-tooltip='For detailed information about example data files, see <a href=\"https://www.loms.cz/modules/\">documentation</a>.' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>",
+                          "<i data-tooltip='In case of download problems or for detailed information about example data files, see <a href=\"https://www.loms.cz/modules/judd-ofelt-analysis/\">documentation</a>.' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>",
                         type: "htmlelement",
                         input: false,
                         tableView: false,
@@ -1212,7 +1212,7 @@ const formLayout = {
                         refreshOnChange: false,
                         key: "htmlspan2",
                         content:
-                          "<i data-tooltip='For detailed information about input template files, see <a href=\"https://www.loms.cz/modules/\">documentation</a>.' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>",
+                          "<i data-tooltip='In case of download problems or for detailed information about input template files, see <a href=\"https://www.loms.cz/modules/judd-ofelt-analysis/\">documentation</a>.' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>",
                         type: "htmlelement",
                         input: false,
                         tableView: false,

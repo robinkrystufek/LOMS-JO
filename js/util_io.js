@@ -47,7 +47,6 @@ function generateCombinationsReport() {
     linkCombinations.click();
 }
 function downloadTemplateData() {
-    var link = document.createElement("a");
     if (filenamesTemplate.hasOwnProperty(re_edit)) {
         var link = document.createElement("a");
         link.setAttribute("href", filenamesTemplate[re_edit]);
@@ -56,9 +55,8 @@ function downloadTemplateData() {
         document.body.appendChild(link);
         link.click();
     }
-    }
-    function downloadReferenceData() {
-    var link = document.createElement("a");
+}
+function downloadReferenceData() {
     if (filenamesReference.hasOwnProperty(re_edit)) {
         var link = document.createElement("a");
         link.setAttribute("href", filenamesReference[re_edit]);
@@ -68,6 +66,7 @@ function downloadTemplateData() {
         link.click();
     }
 }
+
 // import functions
 function importArrayCSV(arr) {
     const dimensions = [arr.length, arr[0].length];
@@ -173,4 +172,19 @@ function CSVToArray(strData, strDelimiter) {
         arrData[arrData.length - 1].push(strMatchedValue);
     }
     return arrData;
+}
+var progressPercent = 0;
+function updateProgressBar(value) {
+    var progressBar = document.getElementById("overlay-progress-bar");
+    progressBar.style.width = value + "%";
+    progressBar.style.display = "block";
+}
+function showProgressBar() {
+    var progressBar = document.getElementById("overlay-progress-bar");
+    progressBar.style.display = "block";
+}
+function hideProgressBar() {
+    var progressBar = document.getElementById("overlay-progress-bar");
+    progressBar.style.width = "0%";
+    progressBar.style.display = "none";
 }

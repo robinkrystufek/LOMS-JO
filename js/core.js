@@ -163,6 +163,10 @@ function calcTranstions() {
 }
 function calcCombinations() {
     document.getElementById("overlayloading").style.display = "block";
+    showProgressBar();  
+    calcCombinationsWorker();
+} 
+function calcCombinationsWorker() {
     const totalCombLimit = 10000000000;
     let countIncluded = 0;
     let reportString = "<table class='styled-table' style='width:100%'>";
@@ -197,6 +201,15 @@ function calcCombinations() {
             jo2jo6: [],
             jo4jo6: []
         };
+        //count target number of combinations
+        var targetComb = 0;
+        while (targetComb < totalCombLimit) {
+            if (limitLowerComb < 4) break;
+            targetComb += math.factorial(countIncluded) / (math.factorial(limitLowerComb) * math.factorial(countIncluded - limitLowerComb));
+            limitLowerComb--;
+        }
+        progressPercent = 0;
+        limitLowerComb = countIncluded - 1;
         while (totalComb < totalCombLimit) {
             if (limitLowerComb < 4) break;
             totalComb = math.factorial(countIncluded) / (math.factorial(limitLowerComb) * math.factorial(countIncluded - limitLowerComb));
@@ -211,6 +224,11 @@ function calcCombinations() {
                     if (item.done) break;
                 }
                 k++;
+                const currentProgressPercent = Math.round((k / targetComb) * 40);
+                if (currentProgressPercent > progressPercent) {
+                    progressPercent = currentProgressPercent;
+                    updateProgressBar(progressPercent);
+                }
                 let iMtx = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
                 let sMtx = [0, 0, 0];
                 reportString = reportString + "<tr><td>" + k + "</td>";
@@ -286,6 +304,8 @@ function calcCombinations() {
     } 
     else {
         reportString = "Only 4 options entered";
+        document.getElementById("overlayloading").style.display = "none";
+        hideProgressBar();
     }
     formRef.getComponent("statJOreport").component.content = reportString;
     const descAvg = ["avg: ", " cm² <i data-tooltip='Arithmetic mean' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>"];
@@ -295,10 +315,10 @@ function calcCombinations() {
     const descCV = ["CV: ", "% <i data-tooltip='Coefficient of variation' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>"];
     formRef.getComponent('htmldivtablecontainer').component.content = "<table style='width:100%; text-align: center;'><tr><td>" + descAvg[0] + getAvg(seriesDataY.jo2).toPrecision(3) + descAvg[1] + "</td><td>" + descAvg[0] + getAvg(seriesDataY.jo4).toPrecision(3) + descAvg[1] + "</td><td>" + descAvg[0] + getAvg(seriesDataY.jo6).toPrecision(3) + descAvg[1] + "</td></tr><tr><td>" + descMedian[0] + getMedian(seriesDataY.jo2).toPrecision(3) + descMedian[1] + "</td><td>" + descMedian[0] + getMedian(seriesDataY.jo4).toPrecision(3) + descMedian[1] + "</td><td>" + descMedian[0] + getMedian(seriesDataY.jo6).toPrecision(3) + descMedian[1] + "</td></tr><tr><td>" + descMedianBP[0] + getMedianBoxPlot(seriesDataY.jo2).toPrecision(3) + descMedianBP[1] + "</td><td>" + descMedianBP[0] + getMedianBoxPlot(seriesDataY.jo4).toPrecision(3) + descMedianBP[1] + "</td><td>" + descMedianBP[0] + getMedianBoxPlot(seriesDataY.jo6).toPrecision(3) + descMedianBP[1] + "</td></tr><tr><td>" + descSD[0] + getStandardDeviation(seriesDataY.jo2).toPrecision(3) + descSD[1] + "</td><td>" + descSD[0] + getStandardDeviation(seriesDataY.jo4).toPrecision(3) + descSD[1] + "</td><td>" + descSD[0] + getStandardDeviation(seriesDataY.jo6).toPrecision(3) + descSD[1] + "</td></tr><tr><td>" + descCV[0] + (getStandardDeviation(seriesDataY.jo2)/getAvg(seriesDataY.jo2)*100).toPrecision(3) + descCV[1] + "</td><td>" + descCV[0] + (getStandardDeviation(seriesDataY.jo4)/getAvg(seriesDataY.jo4)*100).toPrecision(3) + descCV[1] + "</td><td>" + descCV[0] + (getStandardDeviation(seriesDataY.jo6)/getAvg(seriesDataY.jo6)*100).toPrecision(3) + descCV[1] + "</td></tr></table><br>";
     setTimeout(function () {
+        progressPercent = 40;
         renderGraph(seriesData, labelGraphList);
-        document.getElementById("overlayloading").style.display = "none";
-    }, 100);
-} 
+    }, 100);    
+}
 // ancillary functions
 function getStandardDeviation(array) {
     const n = array.length;

@@ -67,6 +67,17 @@
     margin: 0mm 0mm 0mm 0mm;
   }
 }
+#overlay-progress-bar {
+  position: fixed; 
+  bottom: 0px; 
+  left: 0; 
+  width: 100%; 
+  height: 20px; 
+  background-color: #007bff;
+  display: none;
+  z-index: 999;
+}
+
 .help-button-wrapper {
   position: fixed;
   bottom: 20px;
