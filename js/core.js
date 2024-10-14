@@ -186,8 +186,8 @@ function calcCombinationsWorker() {
     if (countIncluded > 4) {
         const limitedCombinations = new combinationsGen(countIncludedRows);
         let k = 0;
-        let csvString = "data:text/csv;charset=utf-8,no,transitions_included,transitions_included_no,JO2,JO4,JO6,RMS\n";
-        reportString += "<thead><tr><th></th><th colspan='" + countIncluded + "'>Transitions included</th><th>JO2</th><th>JO4</th><th>JO6</th><th>JO2/JO4</th><th>JO2/JO6</th><th>JO4/JO6</th><th>RMS</th></tr></thead><tbody>";
+        let csvString = "data:text/csv;charset=utf-8,no,transitions_included,transitions_included_no,JO2,JO4,JO6,RMS,lifetime_ms\n";
+        reportString += "<thead><tr><th></th><th colspan='" + countIncluded + "'>Transitions included</th><th>JO2</th><th>JO4</th><th>JO6</th><th>JO2/JO4</th><th>JO2/JO6</th><th>JO4/JO6</th><th>RMS</th><th>RMS</th>Lifetime (ms)</tr></thead><tbody>";
         var labelGraphList = [];
         var seriesData = {
             jo2: [],
@@ -283,12 +283,53 @@ function calcCombinationsWorker() {
                     console.log(err.message);
                 }
                 if (errorComp || outputMtx[0] == NaN || outputMtx[1] == NaN || outputMtx[2] == NaN) {
-                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},N/A,N/A,N/A,N/A\n`;
-                    reportString += "<td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>";
+                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},N/A,N/A,N/A,N/A,N/A\n`;
+                    reportString += "<td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>";
                 } 
                 else {
+                    const excited_state_index = ref_REDB.findIndex(element => element.excitedState == ref_REDB_transitions[0].excitedState);
+                    const ground_state_index = ref_REDB.findIndex(element => element.excitedState == ref_REDB_transitions[0].groundState);
+                    if (excited_state_index == undefined || ground_state_index == undefined) {
+                        console.log("State index not found", excited_state_index, ground_state_index);
+                        continue;
+                    }
+                    const excited_state_barycenter = formRef.data.dataGrid[excited_state_index].barycenter;
+                    const ground_state_barycenter = formRef.data.dataGrid[ground_state_index].barycenter;        
+                    if (excited_state_barycenter == undefined || ground_state_barycenter == undefined) {
+                        console.log("State value not found", excited_state_barycenter, ground_state_barycenter);
+                        continue;
+                    }
+                    ref_REDB_transitions[0].wavenumber = excited_state_barycenter - ground_state_barycenter;
+                    const sellmeierN = Math.sqrt(
+                        formRef.data.const_sellmeier +
+                        (formRef.data.a_sellmeier *
+                            Math.pow(10000 / ref_REDB_transitions[0].wavenumber, 2)) /
+                        (Math.pow(10000 / ref_REDB_transitions[0].wavenumber, 2) -
+                            formRef.data.b_sellmeier) +
+                        (formRef.data.c_sellmeier *
+                            Math.pow(10000 / ref_REDB_transitions[0].wavenumber, 2)) /
+                        (Math.pow(10000 / ref_REDB_transitions[0].wavenumber, 2) -
+                            formRef.data.d_sellmeier)
+                    );
+                    const rowSMD = ref_REDB_transitions[0].l2s * math.pow((constE * constH) / (4 * constPi * constM * constC), 2);
+                    const rowSED = ref_REDB_transitions[0].u2 * mtxCacheOutput[0] + ref_REDB_transitions[0].u4 * mtxCacheOutput[1] + ref_REDB_transitions[0].u6 * mtxCacheOutput[2];
+                    const auxAED = (64 * Math.pow(constPi, 4) * Math.pow(constE, 2)) / (3 * constH);
+                    const rowAED =
+                        (auxAED *
+                            sellmeierN *
+                            Math.pow((sellmeierN * sellmeierN + 2) / 3, 2) *
+                            rowSED) /
+                        ((2 * ref_REDB_transitions[0].eState + 1) *
+                            Math.pow(1 / ref_REDB_transitions[0].wavenumber, 3));
+                    const rowAMD =
+                        (64 * Math.pow(constPi, 4) * Math.pow(sellmeierN, 3) * rowSMD) /
+                        (3 *
+                            constH *
+                            Math.pow(1 / ref_REDB_transitions[0].wavenumber, 3) *
+                            (2 * ref_REDB_transitions[0].eState + 1));
+                    const tRad = 1000 / (rowAED + rowAMD);
                     mtxCacheOutput = outputMtx;
-                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},${mtxCacheOutput[0]},${mtxCacheOutput[1]},${mtxCacheOutput[2]},${rowRMS}\n`;
+                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},${mtxCacheOutput[0]},${mtxCacheOutput[1]},${mtxCacheOutput[2]},${rowRMS},${tRad}\n`;
                     seriesDataY.jo2.push(mtxCacheOutput[0]);
                     seriesDataY.jo4.push(mtxCacheOutput[1]);
                     seriesDataY.jo6.push( mtxCacheOutput[2]);
@@ -298,7 +339,7 @@ function calcCombinationsWorker() {
                     if(mtxCacheOutput[1] != 0) seriesData.jo2jo4.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[1] });
                     if(mtxCacheOutput[2] != 0) seriesData.jo2jo6.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[2] });
                     if(mtxCacheOutput[2] != 0) seriesData.jo4jo6.push({ x: k, y: mtxCacheOutput[1] / mtxCacheOutput[2] });
-                    reportString += `<td>${mtxCacheOutput[0].toPrecision(3)}</td><td>${mtxCacheOutput[1].toPrecision(3)}</td><td>${mtxCacheOutput[2].toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[1]).toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${(mtxCacheOutput[1] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${rowRMS.toPrecision(3)}</td></tr>`;
+                    reportString += `<td>${mtxCacheOutput[0].toPrecision(3)}</td><td>${mtxCacheOutput[1].toPrecision(3)}</td><td>${mtxCacheOutput[2].toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[1]).toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${(mtxCacheOutput[1] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${rowRMS.toPrecision(3)}</td><td>${tRad.toPrecision(3)}</td></tr>`;
                 }
             }
             limitLowerComb--;
