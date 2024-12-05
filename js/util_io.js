@@ -9,9 +9,17 @@ function generateJOreport() {
     }
     switch(formRef.data.radioInputType) {
       case "ICS":
-        csvString += "excitedState,U2,U4,U6,sigma,mean_peak_wl_nm,refractive_index,fExp,fCalc,sExp,sCalc,barycenter\n";
-        for (let i = 0; i < ref_REDB.length; i++) {
-          if(formRef.data.dataGrid[i].include) csvString += ref_REDB[i].excitedState + "," + formRef.data.dataGrid[i].u2 + "," + formRef.data.dataGrid[i].u4 + "," + formRef.data.dataGrid[i].u6 + "," + formRef.data.dataGrid[i].integratedCrossSectionCm2 + "," + Number(formRef.data.dataGrid[i].meanPeakWavelengthNm).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].refractiveIndex).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fExp).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fCalc).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].sExp).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].sCalc).toPrecision(6) + "," + formRef.data.dataGrid[i].barycenter + "\n";
+        if(formRef.data.radioCorrectionMD=="FEDFMD") {
+            csvString += "excitedState,U2,U4,U6,sigma,mean_peak_wl_nm,refractive_index,FED,FMD,fExp(FED+FMD),fCalc,sExp,sCalc,barycenter\n";
+            for (let i = 0; i < ref_REDB.length; i++) {
+              if(formRef.data.dataGrid[i].include) csvString += ref_REDB[i].excitedState + "," + formRef.data.dataGrid[i].u2 + "," + formRef.data.dataGrid[i].u4 + "," + formRef.data.dataGrid[i].u6 + "," + formRef.data.dataGrid[i].integratedCrossSectionCm2 + "," + Number(formRef.data.dataGrid[i].meanPeakWavelengthNm).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].refractiveIndex).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fExpNoMD).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fExpNoMD-formRef.data.dataGrid[i].fExp).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fExp).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fCalc).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].sExp).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].sCalc).toPrecision(6) + "," + formRef.data.dataGrid[i].barycenter + "\n";
+            }
+        }
+        else {
+            csvString += "excitedState,U2,U4,U6,sigma,mean_peak_wl_nm,refractive_index,fExp,fCalc,sExp,sCalc,barycenter\n";
+            for (let i = 0; i < ref_REDB.length; i++) {
+              if(formRef.data.dataGrid[i].include) csvString += ref_REDB[i].excitedState + "," + formRef.data.dataGrid[i].u2 + "," + formRef.data.dataGrid[i].u4 + "," + formRef.data.dataGrid[i].u6 + "," + formRef.data.dataGrid[i].integratedCrossSectionCm2 + "," + Number(formRef.data.dataGrid[i].meanPeakWavelengthNm).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].refractiveIndex).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fExp).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].fCalc).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].sExp).toPrecision(6) + "," + Number(formRef.data.dataGrid[i].sCalc).toPrecision(6) + "," + formRef.data.dataGrid[i].barycenter + "\n";
+            }
         }
         break;
       case "FEXP":

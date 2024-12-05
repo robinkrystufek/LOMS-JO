@@ -141,7 +141,7 @@
     </button>
   </div>
   <script type="text/javascript">
-    var userLoggedIn = false;
+    var userLoggedIn = false; // set this to true to disable the login wall
     var formRef = 0;
     var mtxCacheOutput = [0, 0, 0], joRMS = 0;
     var linkCombinations = 0, linkTranstions = 0; linkJO = 0;
@@ -151,7 +151,6 @@
     Formio.createForm(document.getElementById("formio"), formLayout).then(function (form) {
       formRef = form;
       form.getComponent("tabs").setTab(currentTab);
-      document.getElementById("overlayloading").style.display = "none";
       form.nosubmit = true;  
       form.on("change", processChange);    
       form.on("calculateTransitions", calcTranstions);

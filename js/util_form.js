@@ -48,7 +48,14 @@ function changeRE() {
     }
     re_edit = listRE[currentTab];
     elementTransitionArrayTemplate = [];
+    let correctionL2Slist = "";
     for (var i = 0; i < ref_REDB.length; i++) {
+        const indexL2S = ref_REDB_transitions.findIndex(element => (element.groundState == ref_REDB[0].excitedState)&&(element.excitedState == ref_REDB[i].excitedState));
+        let correctionL2S = 0;
+        if (indexL2S != undefined && indexL2S != -1) {
+            correctionL2S = ref_REDB_transitions[indexL2S].l2s;
+            if(correctionL2S != 0) correctionL2Slist += ref_REDB[i].excitedStateFormatted + " ";
+        }
         elementTransitionArrayTemplate.push({
         excitedStateRow: ref_REDB[i],
         u2: ref_REDB[i].u2.toPrecision(5),
@@ -62,8 +69,11 @@ function changeRE() {
         sExp: "",
         fCalc: "",
         sCalc: "",
+        correctionL2S: correctionL2S
         });
+        ref_REDB[i].correctionL2S = correctionL2S;
     }
+    if (formRef!=0) formRef.getComponent("radioCorrectionMD").component.tooltip = "Choose which MD correction type to use. FED is the default correction, for FED+FMD the magnetic correction is implemented for: " + correctionL2Slist;
 }
 function clearInput() {
     formRef.data.radioIndexCalc = "direct";
@@ -74,7 +84,7 @@ function clearInput() {
     formRef.data.d_sellmeier = "";
 }
 function processChange(event) {
-    if (event.changed && event.changed.component.key === "tabs" && currentTab != event.changed.instance.currentTab) {
+    if (event.changed && event.changed.component.key === "tabs" ) {
         document.getElementById("overlayloading").style.display = "block";
         currentTab = event.changed.instance.currentTab;
         clearInput();

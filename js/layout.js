@@ -88,6 +88,36 @@ const formLayout = {
                   type: "textfield",
                   input: true,
                 },
+                {
+                  label: "Use magnetic dipole correction",
+                  optionsLabelPosition: "right",
+                  tooltip:
+                    "",
+                  inline: true,
+                  hidden: true,
+                  tableView: false,
+                  defaultValue: "FED",
+                  conditional: {
+                    show: true,
+                    when: "radioInputType",
+                    eq: "ICS",
+                  },
+                  values: [
+                    {
+                      label: "FED",
+                      value: "FED",
+                      shortcut: "",
+                    },
+                    {
+                      label: "FED+FMD",
+                      value: "FEDFMD",
+                      shortcut: "",
+                    },
+                  ],
+                  key: "radioCorrectionMD",
+                  type: "radio",
+                  input: true,
+                }
               ],
               width: 6,
               offset: 0,
@@ -805,10 +835,28 @@ const formLayout = {
               input: true,
             },
             {
-              label: "f_exp",
+              label: "f_exp_no_md",
               calculateValue:
                 'value = data.radioInputType=="FEXP" ? row.fexp : ((2*constM*constC)/(constA*constH*((row.meanPeakWavelengthNm/10000000)*(row.meanPeakWavelengthNm/10000000))))*(row.integratedCrossSectionCm2/10000000);',
+              key: "fExpNoMD",
+              type: "hidden",
+              input: true,
+              tableView: false,
+            },
+            {
+              label: "f_exp",
+              calculateValue:
+                'value = (data.radioInputType=="ICS" && data.radioCorrectionMD=="FEDFMD") ? row.fExpNoMD - (constH*row.refractiveIndex*row.excitedStateRow.correctionL2S*(constC/(row.meanPeakWavelengthNm/10000000)))/(6*constM*constC*constC*(2*ref_REDB[0].gState+1)) : row.fExpNoMD;',
               key: "fExp",
+              type: "hidden",
+              input: true,
+              tableView: false,
+            },
+            {
+              label: "s_exp_no_md",
+              calculateValue:
+                'value = data.radioInputType=="SEXP" ? row.sexp_disp : (row.fExpNoMD*3*constH*(row.meanPeakWavelengthNm/10000000)*(2*row.excitedStateRow.gState+1)*9*(row.refractiveIndex*row.refractiveIndex))/(8*(constPi*constPi)*constM*constC*row.refractiveIndex*(((row.refractiveIndex*row.refractiveIndex)+2)*((row.refractiveIndex*row.refractiveIndex)+2)));',
+              key: "sExpNoMD",
               type: "hidden",
               input: true,
               tableView: false,
@@ -816,7 +864,7 @@ const formLayout = {
             {
               label: "s_exp",
               calculateValue:
-                'value = data.radioInputType=="SEXP" ? row.sexp_disp : (row.fExp*3*constH*(row.meanPeakWavelengthNm/10000000)*(2*row.excitedStateRow.gState+1)*9*(row.refractiveIndex*row.refractiveIndex))/(8*(constPi*constPi)*constM*constC*row.refractiveIndex*(((row.refractiveIndex*row.refractiveIndex)+2)*((row.refractiveIndex*row.refractiveIndex)+2)));',
+                'value = (data.radioInputType=="ICS" && data.radioCorrectionMD=="FEDFMD") ? row.sExpNoMD - ((row.sExpNoMD * (row.fExpNoMD - (row.fExp))) / row.fExpNoMD) : row.sExpNoMD;',
               key: "sExp",
               type: "hidden",
               input: true,
