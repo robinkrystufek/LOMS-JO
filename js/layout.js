@@ -883,7 +883,7 @@ const formLayout = {
               label: "F<sub>exp</sub>",
               disabled: true,
               tableView: true,
-              calculateValue: "value = row.fExp.toPrecision(4);",
+              calculateValue: "value = Number(row.fExp).toPrecision(4);",
               key: "fexp",
               type: "textfield",
               input: true,

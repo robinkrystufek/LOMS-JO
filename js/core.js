@@ -187,7 +187,7 @@ function calcCombinationsWorker() {
         const limitedCombinations = new combinationsGen(countIncludedRows);
         let k = 0;
         let csvString = "data:text/csv;charset=utf-8,no,transitions_included,transitions_included_no,JO2,JO4,JO6,RMS,lifetime_ms\n";
-        reportString += "<thead><tr><th></th><th colspan='" + countIncluded + "'>Transitions included</th><th>JO2</th><th>JO4</th><th>JO6</th><th>JO2/JO4</th><th>JO2/JO6</th><th>JO4/JO6</th><th>RMS</th><th>RMS</th>Lifetime (ms)</tr></thead><tbody>";
+        reportString += "<thead><tr><th></th><th colspan='" + countIncluded + "'>Transitions included</th><th>JO2</th><th>JO4</th><th>JO6</th><th>JO2/JO4</th><th>JO2/JO6</th><th>JO4/JO6</th><th>RMS</th><th>Lifetime (ms)</th></tr></thead><tbody>";
         var labelGraphList = [];
         var seriesData = {
             jo2: [],
