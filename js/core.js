@@ -203,7 +203,8 @@ function calcCombinationsWorker() {
             jo6: [],
             jo2jo4: [],
             jo2jo6: [],
-            jo4jo6: []
+            jo4jo6: [],
+            lifetime: []
         };
         //count target number of combinations
         var targetComb = 0;
@@ -249,7 +250,9 @@ function calcCombinationsWorker() {
                         const u6 = Number(formRef.data.dataGrid[i].u6);
                         const sExp = Number(formRef.data.dataGrid[i].sExp);
                         const sCalc = Number(formRef.data.dataGrid[i].sCalc);
-                        rowRMS += math.pow(sExp - sCalc, 2);
+                        const fExp = Number(formRef.data.dataGrid[i].fExp);
+                        const fCalc = Number(formRef.data.dataGrid[i].fCalc);
+                        rowRMS += math.pow(fExp - fCalc, 2);
                         iMtx[0][0] += 2 * u2 * u2;
                         iMtx[0][1] += 2 * u2 * u4;
                         iMtx[0][2] += 2 * u2 * u6;
@@ -333,6 +336,7 @@ function calcCombinationsWorker() {
                     seriesDataY.jo2.push(mtxCacheOutput[0]);
                     seriesDataY.jo4.push(mtxCacheOutput[1]);
                     seriesDataY.jo6.push( mtxCacheOutput[2]);
+                    seriesDataY.lifetime.push(tRad);
                     seriesData.jo2.push({ x: k, y: mtxCacheOutput[0] });
                     seriesData.jo4.push({ x: k, y: mtxCacheOutput[1] });
                     seriesData.jo6.push({ x: k, y: mtxCacheOutput[2] });
@@ -345,6 +349,12 @@ function calcCombinationsWorker() {
             limitLowerComb--;
         }
         reportString = reportString + "</tbody></table>";
+        csvString += "Data used,Median JO2 (cm²),Median JO4 (cm²),Median JO6 (cm²),Median lifetime (ms),Min lifetime (ms),Max lifetime (ms)\n";
+        csvString += "Full set," + seriesDataY.jo2[0].toPrecision(3) + "," + seriesDataY.jo4[0].toPrecision(3) + "," + seriesDataY.jo6[0].toPrecision(3) + "," + seriesDataY.lifetime[0].toPrecision(3) + "," + seriesDataY.lifetime[0].toPrecision(3) + "," + seriesDataY.lifetime[0].toPrecision(3) + "\n";
+        csvString += "All combinations," + getMedian(seriesDataY.jo2).toPrecision(3) + "," + getMedian(seriesDataY.jo4).toPrecision(3) + "," + getMedian(seriesDataY.jo6).toPrecision(3) + "," + getMedian(seriesDataY.lifetime).toPrecision(3) + "," + getMin(seriesDataY.lifetime).toPrecision(3) + "," + getMax(seriesDataY.lifetime).toPrecision(3) + "\n";
+        csvString += "Reduced (Only positive)," + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo2)).toPrecision(3) + "," + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo4)).toPrecision(3) + "," + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo6)).toPrecision(3) + "," + getMedian(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + "," + getMin(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + "," + getMax(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + "\n";
+        csvString += "Reduced (Box plot)," + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo2)).toPrecision(3) + "," + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo4)).toPrecision(3) + "," + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo6)).toPrecision(3) + "," + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + "," + getMin(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + "," + getMax(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + "\n";
+    
         linkCombinations = document.createElement("a");
         linkCombinations.setAttribute("href", encodeURI(csvString));
         if(formRef.data.sampleName != "") linkCombinations.setAttribute("download", formRef.data.sampleName + "_optimization_export.csv");
@@ -357,12 +367,8 @@ function calcCombinationsWorker() {
         hideProgressBar();
     }
     formRef.getComponent("statJOreport").component.content = reportString;
-    const descAvg = ["avg: ", " cm² <i data-tooltip='Arithmetic mean' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>"];
-    const descMedian = ["median: ", " cm² <i data-tooltip='Median' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>"];
-    const descMedianBP = ["median BP: ", " cm² <i data-tooltip='Box plot median within 1.5 × 25-75 percentile range' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>"];
-    const descSD = ["s.d.: ", " cm² <i data-tooltip='Standard deviation' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>"];
-    const descCV = ["CV: ", "% <i data-tooltip='Coefficient of variation' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>"];
-    formRef.getComponent('htmldivtablecontainer').component.content = "<table style='width:100%; text-align: center;'><tr><td>" + descAvg[0] + getAvg(seriesDataY.jo2).toPrecision(3) + descAvg[1] + "</td><td>" + descAvg[0] + getAvg(seriesDataY.jo4).toPrecision(3) + descAvg[1] + "</td><td>" + descAvg[0] + getAvg(seriesDataY.jo6).toPrecision(3) + descAvg[1] + "</td></tr><tr><td>" + descMedian[0] + getMedian(seriesDataY.jo2).toPrecision(3) + descMedian[1] + "</td><td>" + descMedian[0] + getMedian(seriesDataY.jo4).toPrecision(3) + descMedian[1] + "</td><td>" + descMedian[0] + getMedian(seriesDataY.jo6).toPrecision(3) + descMedian[1] + "</td></tr><tr><td>" + descMedianBP[0] + getMedianBoxPlot(seriesDataY.jo2).toPrecision(3) + descMedianBP[1] + "</td><td>" + descMedianBP[0] + getMedianBoxPlot(seriesDataY.jo4).toPrecision(3) + descMedianBP[1] + "</td><td>" + descMedianBP[0] + getMedianBoxPlot(seriesDataY.jo6).toPrecision(3) + descMedianBP[1] + "</td></tr><tr><td>" + descSD[0] + getStandardDeviation(seriesDataY.jo2).toPrecision(3) + descSD[1] + "</td><td>" + descSD[0] + getStandardDeviation(seriesDataY.jo4).toPrecision(3) + descSD[1] + "</td><td>" + descSD[0] + getStandardDeviation(seriesDataY.jo6).toPrecision(3) + descSD[1] + "</td></tr><tr><td>" + descCV[0] + (getStandardDeviation(seriesDataY.jo2)/getAvg(seriesDataY.jo2)*100).toPrecision(3) + descCV[1] + "</td><td>" + descCV[0] + (getStandardDeviation(seriesDataY.jo4)/getAvg(seriesDataY.jo4)*100).toPrecision(3) + descCV[1] + "</td><td>" + descCV[0] + (getStandardDeviation(seriesDataY.jo6)/getAvg(seriesDataY.jo6)*100).toPrecision(3) + descCV[1] + "</td></tr></table><br>";
+    formRef.getComponent('htmldivtablecontainer').component.content = "<table style='width:100%; text-align: center;'><thead><tr><th>Datased used</th><th>Median JO2</th><th>Median JO4</th><th>Median JO6</th><th>Median lifetime</th><th>Min lifetime</th><th>Max lifetime</th></tr></thead><tbody><tr><td>Full set</td><td>" + seriesDataY.jo2[0].toPrecision(3) + " cm²</td><td>" + seriesDataY.jo4[0].toPrecision(3) + " cm²</td><td>" + seriesDataY.jo6[0].toPrecision(3) + " cm²</td><td>" + seriesDataY.lifetime[0].toPrecision(3) + " ms</td><td>" + seriesDataY.lifetime[0].toPrecision(3) + " ms</td><td>" + seriesDataY.lifetime[0].toPrecision(3) + " ms</td></tr><tr><td>All combinations</td><td>" + getMedian(seriesDataY.jo2).toPrecision(3) + " cm²</td><td>" + getMedian(seriesDataY.jo4).toPrecision(3) + " cm²</td><td>" + getMedian(seriesDataY.jo6).toPrecision(3) + " cm²</td><td>" + getMedian(seriesDataY.lifetime).toPrecision(3) + " ms</td><td>" + getMin(seriesDataY.lifetime).toPrecision(3) + " ms</td><td>" + getMax(seriesDataY.lifetime).toPrecision(3) + " ms</td></tr><tr><td>Reduced (Only positive)</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo2)).toPrecision(3) + " cm²</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo4)).toPrecision(3) + " cm²</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo6)).toPrecision(3) + " cm²</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMin(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMax(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td></tr><tr><td>Reduced (Box plot)<i data-tooltip='Box plot median within 1.5 × 25-75 percentile range' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i></td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo2)).toPrecision(3) + " cm²</td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo4)).toPrecision(3) + " cm²</td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo6)).toPrecision(3) + " cm²</td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMin(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMax(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td></tr></tbody></table><br>";
+    formRef.redraw();
     setTimeout(function () {
         progressPercent = 40;
         renderGraph(seriesData, labelGraphList);
@@ -378,6 +384,12 @@ function getAvg(array) {
     const n = array.length;
     return array.reduce((a, b) => a + b) / n;
 }
+function getMin(array) {
+    return Math.min(...array);
+}
+function getMax(array) {
+    return Math.max(...array);
+}
 function getMedian(array) {
     const sortedArray = array.slice().sort((a, b) => a - b);
     const n = sortedArray.length;
@@ -385,7 +397,17 @@ function getMedian(array) {
     if (n % 2 === 0) return (sortedArray[middleIndex - 1] + sortedArray[middleIndex]) / 2;
     else return sortedArray[middleIndex];
 }
-function getMedianBoxPlot(array) {
+function getBoxPlotArray(arrayTest, arrayOutput) {
+    const incorrectIndeces = getBoxPlotIncorrectIndeces(arrayTest.jo2).concat(getBoxPlotIncorrectIndeces(arrayTest.jo4), getBoxPlotIncorrectIndeces(arrayTest.jo6));
+    const filteredArray = arrayOutput.filter((value, index) => !incorrectIndeces.includes(index));
+    return filteredArray;
+}
+function getPositiveArray(arrayTest, arrayOutput) {
+    const incorrectIndeces = getNegativeIncorrectIndeces(arrayTest.jo2).concat(getNegativeIncorrectIndeces(arrayTest.jo4), getNegativeIncorrectIndeces(arrayTest.jo6));
+    const filteredArray = arrayOutput.filter((value, index) => !incorrectIndeces.includes(index));
+    return filteredArray;
+}
+function getBoxPlotIncorrectIndeces(array) {
     const positiveArray = array.slice().filter((value) => value >= 0);
     const sortedArray = positiveArray.sort((a, b) => a - b);
     const n = sortedArray.length;
@@ -394,9 +416,20 @@ function getMedianBoxPlot(array) {
     const iqr = q3 - q1;
     const bottom = q1 - 1.5 * iqr < 0 ? 0 : q1 - 1.5 * iqr;
     const top = q3 + 1.5 * iqr;
-    const filteredArray = positiveArray.filter((value) => value >= bottom && value <= top);
-    return getMedian(filteredArray);
-}
+    var indexArray = [];
+    array.forEach(element => {
+        if (element < bottom || element > top) indexArray.push(array.indexOf(element));
+    });
+    return indexArray;
+}  
+function getNegativeIncorrectIndeces(array) {
+    var indexArray = [];
+    array.forEach(element => {
+        if (element < 0) indexArray.push(array.indexOf(element));
+    });
+    return indexArray;
+}  
+
 class combinationsGen {
     constructor(elements) {
         this.elements = elements;
