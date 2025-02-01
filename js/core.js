@@ -186,8 +186,8 @@ function calcCombinationsWorker() {
     if (countIncluded > 4) {
         const limitedCombinations = new combinationsGen(countIncludedRows);
         let k = 0;
-        let csvString = "data:text/csv;charset=utf-8,no,transitions_included,transitions_included_no,JO2,JO4,JO6,RMS,lifetime_ms\n";
-        reportString += "<thead><tr><th></th><th colspan='" + countIncluded + "'>Transitions included</th><th>JO2</th><th>JO4</th><th>JO6</th><th>JO2/JO4</th><th>JO2/JO6</th><th>JO4/JO6</th><th>RMS</th><th>Lifetime (ms)</th></tr></thead><tbody>";
+        let csvString = "data:text/csv;charset=utf-8,no,transitions_included,transitions_included_no,JO2,JO4,JO6,RMSF,RMSS,lifetime_ms\n";
+        reportString += "<thead><tr><th></th><th colspan='" + countIncluded + "'>Transitions included</th><th>JO2</th><th>JO4</th><th>JO6</th><th>JO2/JO4</th><th>JO2/JO6</th><th>JO4/JO6</th><th>RMS<sub>S</sub></th><th>RMS<sub>F</sub></th><th>Lifetime (ms)</th></tr></thead><tbody>";
         var labelGraphList = [];
         var seriesData = {
             jo2: [],
@@ -242,6 +242,7 @@ function calcCombinationsWorker() {
                 let labelGraphNoFormat = "";
                 let transListNoFormat = "";
                 let rowRMS = 0;
+                let rowRMSS = 0;
                 for (let i = 0; i < ref_REDB.length; i++) {
                     if (item.value.includes(i)) {
                         rowCountTransitions++;
@@ -253,6 +254,7 @@ function calcCombinationsWorker() {
                         const fExp = Number(formRef.data.dataGrid[i].fExp);
                         const fCalc = Number(formRef.data.dataGrid[i].fCalc);
                         rowRMS += math.pow(fExp - fCalc, 2);
+                        rowRMSS += math.pow(sExp - sCalc, 2);
                         iMtx[0][0] += 2 * u2 * u2;
                         iMtx[0][1] += 2 * u2 * u4;
                         iMtx[0][2] += 2 * u2 * u6;
@@ -272,6 +274,7 @@ function calcCombinationsWorker() {
                     }
                 }
                 rowRMS = math.sqrt(rowRMS / (rowCountTransitions-3));
+                rowRMSS = math.sqrt(rowRMSS / (rowCountTransitions-3));
                 labelGraphList.push(labelGraph);
                 for (let i = 0; i < countIncluded - rowCountTransitions; i++) {
                     reportString += "<td></td>";
@@ -332,7 +335,7 @@ function calcCombinationsWorker() {
                             (2 * ref_REDB_transitions[0].eState + 1));
                     const tRad = 1000 / (rowAED + rowAMD);
                     mtxCacheOutput = outputMtx;
-                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},${mtxCacheOutput[0]},${mtxCacheOutput[1]},${mtxCacheOutput[2]},${rowRMS},${tRad}\n`;
+                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},${mtxCacheOutput[0]},${mtxCacheOutput[1]},${mtxCacheOutput[2]},${rowRMS},${rowRMSS},${tRad}\n`;
                     seriesDataY.jo2.push(mtxCacheOutput[0]);
                     seriesDataY.jo4.push(mtxCacheOutput[1]);
                     seriesDataY.jo6.push( mtxCacheOutput[2]);
@@ -343,7 +346,7 @@ function calcCombinationsWorker() {
                     if(mtxCacheOutput[1] != 0) seriesData.jo2jo4.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[1] });
                     if(mtxCacheOutput[2] != 0) seriesData.jo2jo6.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[2] });
                     if(mtxCacheOutput[2] != 0) seriesData.jo4jo6.push({ x: k, y: mtxCacheOutput[1] / mtxCacheOutput[2] });
-                    reportString += `<td>${mtxCacheOutput[0].toPrecision(3)}</td><td>${mtxCacheOutput[1].toPrecision(3)}</td><td>${mtxCacheOutput[2].toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[1]).toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${(mtxCacheOutput[1] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${rowRMS.toPrecision(3)}</td><td>${tRad.toPrecision(3)}</td></tr>`;
+                    reportString += `<td>${mtxCacheOutput[0].toPrecision(3)}</td><td>${mtxCacheOutput[1].toPrecision(3)}</td><td>${mtxCacheOutput[2].toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[1]).toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${(mtxCacheOutput[1] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${rowRMSS.toPrecision(3)}</td><td>${rowRMS.toPrecision(3)}</td><td>${tRad.toPrecision(3)}</td></tr>`;
                 }
             }
             limitLowerComb--;
