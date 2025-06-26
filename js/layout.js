@@ -1673,7 +1673,7 @@ const formLayout = {
               cellAlignment: "left",
               key: "joParameters",
               type: "table",
-              numRows: 4,
+              numRows: 5,
               input: false,
               tableView: false,
               rows: [
@@ -1834,6 +1834,65 @@ const formLayout = {
                         calculateValue:
                           "value = mtxCacheOutput[2].toPrecision(3);",
                         key: "jo6",
+                        type: "textfield",
+                        labelWidth: 15,
+                        input: true,
+                      },
+                    ],
+                  },
+                ],
+                [
+                  {
+                    components: [
+                      {
+                        label: "ΔJO2",
+                        labelPosition: "left-left",
+                        spellcheck: false,
+                        suffix: "cm²",
+                        disabled: true,
+                        tableView: true,
+                        clearOnHide: false,
+                        calculateValue:
+                          "value = calculateErrorJO(data,0).toPrecision(3);",
+                        key: "errjo2",
+                        type: "textfield",
+                        labelWidth: 15,
+                        input: true,
+                      },
+                    ],
+                  },
+                  {
+                    components: [
+                      {
+                        label: "ΔJO4",
+                        labelPosition: "left-left",
+                        spellcheck: false,
+                        suffix: "cm²",
+                        disabled: true,
+                        tableView: true,
+                        clearOnHide: false,
+                        calculateValue:
+                          "value = calculateErrorJO(data,1).toPrecision(3);",
+                        key: "errjo4",
+                        type: "textfield",
+                        labelWidth: 15,
+                        input: true,
+                      },
+                    ],
+                  },
+                  {
+                    components: [
+                      {
+                        label: "ΔJO6",
+                        labelPosition: "left-left",
+                        spellcheck: false,
+                        suffix: "cm²",
+                        disabled: true,
+                        tableView: true,
+                        clearOnHide: false,
+                        calculateValue:
+                          "value = calculateErrorJO(data,2).toPrecision(3);",
+                        key: "errjo6",
                         type: "textfield",
                         labelWidth: 15,
                         input: true,

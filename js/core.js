@@ -378,6 +378,25 @@ function calcCombinationsWorker() {
     }, 100);    
 }
 // ancillary functions
+function calculateErrorJO(input, output) {
+    if(input.dataGrid.filter(item => item.include).length < 4) {
+        return NaN;
+    }
+    var countIncluded = 0; 
+    var errMtx = [];
+    for (let i = 0; i < input.dataGrid.length; i++ ) { 
+        if(input.dataGrid[i].include) { 
+            errMtx[countIncluded] = [];
+            errMtx[countIncluded][0] = Number(input.dataGrid[i].u2);
+            errMtx[countIncluded][1] = Number(input.dataGrid[i].u4);
+            errMtx[countIncluded][2] = Number(input.dataGrid[i].u6);
+            countIncluded++;        
+        }
+    }          
+    let invErrMtx = math.inv(math.multiply(math.transpose(errMtx), errMtx));
+    return math.sqrt(invErrMtx[output][output])*input.joRMSS;
+}
+
 function getStandardDeviation(array) {
     const n = array.length;
     const mean = array.reduce((a, b) => a + b) / n;
