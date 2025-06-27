@@ -186,7 +186,7 @@ function calcCombinationsWorker() {
     if (countIncluded > 4) {
         const limitedCombinations = new combinationsGen(countIncludedRows);
         let k = 0;
-        let csvString = "data:text/csv;charset=utf-8,no,transitions_included,transitions_included_no,JO2,JO4,JO6,RMSF,RMSS,lifetime_ms\n";
+        let csvString = "data:text/csv;charset=utf-8,no,transitions_included,transitions_included_no,JO2,JO4,JO6,RMSF,RMSS,lifetime_ms,error_JO2,error_JO4,error_JO6\n";
         reportString += "<thead><tr><th></th><th colspan='" + countIncluded + "'>Transitions included</th><th>JO2</th><th>JO4</th><th>JO6</th><th>JO2/JO4</th><th>JO2/JO6</th><th>JO4/JO6</th><th>RMS<sub>S</sub></th><th>RMS<sub>F</sub></th><th>Lifetime (ms)</th></tr></thead><tbody>";
         var labelGraphList = [];
         var seriesData = {
@@ -243,9 +243,9 @@ function calcCombinationsWorker() {
                 let transListNoFormat = "";
                 let rowRMS = 0;
                 let rowRMSS = 0;
+                let errMtx = [];
                 for (let i = 0; i < ref_REDB.length; i++) {
                     if (item.value.includes(i)) {
-                        rowCountTransitions++;
                         const u2 = Number(formRef.data.dataGrid[i].u2);
                         const u4 = Number(formRef.data.dataGrid[i].u4);
                         const u6 = Number(formRef.data.dataGrid[i].u6);
@@ -267,10 +267,15 @@ function calcCombinationsWorker() {
                         sMtx[0] += 2 * u2 * sExp;
                         sMtx[1] += 2 * u4 * sExp;
                         sMtx[2] += 2 * u6 * sExp;
+                        errMtx[rowCountTransitions] = [];
+                        errMtx[rowCountTransitions][0] = u2;
+                        errMtx[rowCountTransitions][1] = u4;
+                        errMtx[rowCountTransitions][2] = u6;
                         reportString += `<td>${ref_REDB[i].excitedStateFormatted}</td>`;
                         labelGraph += `${ref_REDB[i].excitedStateFormatted} `;
                         labelGraphNoFormat += `${ref_REDB[i].excitedState} `;
                         transListNoFormat += `${(i)} `;
+                        rowCountTransitions++;
                     }
                 }
                 rowRMS = math.sqrt(rowRMS / (rowCountTransitions-3));
@@ -335,7 +340,8 @@ function calcCombinationsWorker() {
                             (2 * ref_REDB_transitions[0].eState + 1));
                     const tRad = 1000 / (rowAED + rowAMD);
                     mtxCacheOutput = outputMtx;
-                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},${mtxCacheOutput[0]},${mtxCacheOutput[1]},${mtxCacheOutput[2]},${rowRMS},${rowRMSS},${tRad}\n`;
+                    let invErrMtx = math.inv(math.multiply(math.transpose(errMtx), errMtx));
+                    csvString += `${k},${labelGraphNoFormat},${transListNoFormat},${mtxCacheOutput[0]},${mtxCacheOutput[1]},${mtxCacheOutput[2]},${rowRMS},${rowRMSS},${tRad},${math.sqrt(invErrMtx[0][0])*rowRMSS},${math.sqrt(invErrMtx[1][1])*rowRMSS},${math.sqrt(invErrMtx[2][2])*rowRMSS}\n`;
                     seriesDataY.jo2.push(mtxCacheOutput[0]);
                     seriesDataY.jo4.push(mtxCacheOutput[1]);
                     seriesDataY.jo6.push( mtxCacheOutput[2]);
@@ -346,7 +352,7 @@ function calcCombinationsWorker() {
                     if(mtxCacheOutput[1] != 0) seriesData.jo2jo4.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[1] });
                     if(mtxCacheOutput[2] != 0) seriesData.jo2jo6.push({ x: k, y: mtxCacheOutput[0] / mtxCacheOutput[2] });
                     if(mtxCacheOutput[2] != 0) seriesData.jo4jo6.push({ x: k, y: mtxCacheOutput[1] / mtxCacheOutput[2] });
-                    reportString += `<td>${mtxCacheOutput[0].toPrecision(3)}</td><td>${mtxCacheOutput[1].toPrecision(3)}</td><td>${mtxCacheOutput[2].toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[1]).toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${(mtxCacheOutput[1] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${rowRMSS.toPrecision(3)}</td><td>${rowRMS.toPrecision(3)}</td><td>${tRad.toPrecision(3)}</td></tr>`;
+                    reportString += `<td>${formatWithError(mtxCacheOutput[0],math.sqrt(invErrMtx[0][0])*rowRMSS)}</td><td>${formatWithError(mtxCacheOutput[1],math.sqrt(invErrMtx[1][1])*rowRMSS)}</td><td>${formatWithError(mtxCacheOutput[2],math.sqrt(invErrMtx[2][2])*rowRMSS)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[1]).toPrecision(3)}</td><td>${(mtxCacheOutput[0] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${(mtxCacheOutput[1] / mtxCacheOutput[2]).toPrecision(3)}</td><td>${rowRMSS.toPrecision(3)}</td><td>${rowRMS.toPrecision(3)}</td><td>${tRad.toPrecision(3)}</td></tr>`;
                 }
             }
             limitLowerComb--;
@@ -396,7 +402,16 @@ function calculateErrorJO(input, output) {
     let invErrMtx = math.inv(math.multiply(math.transpose(errMtx), errMtx));
     return math.sqrt(invErrMtx[output][output])*input.joRMSS;
 }
-
+function formatWithError(value, error) {
+    if (value === 0) return `0 ± ${error}`;
+    const exponent = Math.floor(Math.log10(Math.abs(value)));
+    const scaledValue = value / Math.pow(10, exponent);
+    const scaledError = error / Math.pow(10, exponent);
+    const valStr = Number(scaledValue.toPrecision(3)).toString();
+    const errStr = Number(scaledError.toPrecision(3)).toString();
+    if(errStr> valStr) return `<i style='color:#dc3545;'>${valStr} ± ${errStr} e${exponent}</i>`;
+    else return `${valStr} ± ${errStr} e${exponent}`;
+}
 function getStandardDeviation(array) {
     const n = array.length;
     const mean = array.reduce((a, b) => a + b) / n;
