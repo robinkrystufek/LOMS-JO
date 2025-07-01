@@ -61,7 +61,7 @@ function calcTranstions() {
         (math.pow(10000 / selectedElement[i].wavenumber, 2) -
             formRef.data.d_sellmeier)
         );
-        const rowSMD = selectedElement[i].l2s * math.pow((constE * constH) / (4 * constPi * constM * constC), 2);
+        const rowSMD = selectedElement[i].l2s * math.pow(constH / (4 * constPi * constM * constC), 2);
         const rowSED = selectedElement[i].u2 * jo2 + selectedElement[i].u4 * jo4 + selectedElement[i].u6 * jo6;
         const auxAED = (64* math.pow(constPi,4) *math.pow(constE,2))/(3*constH);
         const rowAED =
@@ -72,7 +72,7 @@ function calcTranstions() {
         ((2 * selectedElement[i].eState + 1) *
             math.pow(1 / selectedElement[i].wavenumber, 3));
         const rowAMD =
-        (64 * math.pow(constPi, 4) * math.pow(sellmeierN, 3) * rowSMD) /
+        (64 * math.pow(constPi, 4) * math.pow(sellmeierN, 3) * math.pow(constE, 2) * rowSMD) /
         (3 *
             constH *
             math.pow(1 / selectedElement[i].wavenumber, 3) *
