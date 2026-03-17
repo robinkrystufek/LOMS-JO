@@ -1004,7 +1004,7 @@ const formLayout = {
               tableView: true,
 
               calculateValue:
-                "value = data.radioInputType == 'SEXP'? row.sexp_disp.toPrecision(4) : row.sExp.toPrecision(4);",
+                "value = data.radioInputType == 'SEXP'? Number(row.sexp_disp).toPrecision(4) : Number(row.sExp).toPrecision(4);",
               key: "sexp_disp",
               type: "textfield",
               input: true,

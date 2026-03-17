@@ -94,7 +94,7 @@ function processChange(event) {
         formRef.triggerRedraw();
     }
     if (event.changed && event.changed.component.key === "radioInputType" && event.changed.value == "JO") {
-        form.data.radioIndexCalc = "sellmeier";
+        formRef.data.radioIndexCalc = "sellmeier";
         formRef.triggerChange();
         formRef.triggerRedraw();
     }
