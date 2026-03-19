@@ -1,4 +1,4 @@
-function calcTranstions() {
+function calcTransitions() {
     const selectedElement = ref_REDB_transitions;
     let jo2 = formRef.data.jo2;
     let jo4 = formRef.data.jo4;
@@ -160,6 +160,7 @@ function calcTranstions() {
     if(formRef.data.sampleName != "") linkTransitions.setAttribute("download", formRef.data.sampleName + "_transitions_export.csv");
     else linkTransitions.setAttribute("download", "transitions_export.csv");
     document.body.appendChild(linkTransitions);
+    formRef.getComponent("transitionsWell").redraw();
 }
 function calcCombinations() {
     document.getElementById("overlayloading").style.display = "block";

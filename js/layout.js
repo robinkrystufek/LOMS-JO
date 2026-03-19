@@ -1384,7 +1384,7 @@ const formLayout = {
                       trigger: {
                         type: "javascript",
                         javascript:
-                          "result = data.radioInputType=='JO' ? true : !userLoggedIn;",
+                          "result = data.radioInputType=='JO' ? true : !(userLoggedIn || userLoginOverride);",
                       },
                       actions: [
                         {
@@ -1446,7 +1446,7 @@ const formLayout = {
                       trigger: {
                         type: "javascript",
                         javascript:
-                          "result = data.radioInputType=='JO' ? true : userLoggedIn;",
+                          "result = data.radioInputType=='JO' ? true : (userLoggedIn || userLoginOverride);",
                       },
                       actions: [
                         {
@@ -1489,7 +1489,7 @@ const formLayout = {
                       trigger: {
                         type: "javascript",
                         javascript:
-                          "result = data.radioInputType=='JO' ? true : !userLoggedIn;",
+                          "result = data.radioInputType=='JO' ? true : !(userLoggedIn || userLoginOverride);",
                       },
                       actions: [
                         {
@@ -1508,7 +1508,7 @@ const formLayout = {
                       name: "loginHide",
                       trigger: {
                         type: "javascript",
-                        javascript: "result = !userLoggedIn;",
+                        javascript: "result = !(userLoggedIn || userLoginOverride);",
                       },
                       actions: [
                         {
@@ -1570,7 +1570,7 @@ const formLayout = {
                       trigger: {
                         type: "javascript",
                         javascript:
-                          "result = data.radioInputType=='JO' ? true : userLoggedIn;",
+                          "result = data.radioInputType=='JO' ? true : (userLoggedIn || userLoginOverride);",
                       },
                       actions: [
                         {
@@ -1724,7 +1724,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          "let iMtx = [[0,0,0],[0,0,0],[0,0,0]]; let sMtx = [0,0,0]; joRMS = 0; joRMSS = 0; let countIncluded = 0; for (let i = 0; i < data.dataGrid.length; i++ ) { if(data.dataGrid[i].include) { countIncluded++; joRMS += Math.pow(Number(data.dataGrid[i].fExp)-Number(data.dataGrid[i].fCalc), 2); joRMSS += Math.pow(Number(data.dataGrid[i].sExp)-Number(data.dataGrid[i].sCalc), 2); iMtx[0][0] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].u2); iMtx[0][1] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].u4); iMtx[0][2] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].u6); iMtx[1][0] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].u2); iMtx[1][1] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].u4); iMtx[1][2] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].u6); iMtx[2][0] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].u2); iMtx[2][1] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].u4); iMtx[2][2] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].u6); sMtx[0] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].sExp); sMtx[1] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].sExp); sMtx[2] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].sExp);} } let outputMtx; try { outputMtx = math.multiply(math.inv(iMtx), sMtx); } catch { outputMtx = [NaN,NaN,NaN]; } joRMS = Math.sqrt(joRMS / (countIncluded-3)); joRMSS = Math.sqrt(joRMSS / (countIncluded-3)); mtxCacheOutput = outputMtx; value = mtxCacheOutput[0].toPrecision(3);",
+                          "if (data.radioInputType == 'JO') value = 0; else { let iMtx = [[0,0,0],[0,0,0],[0,0,0]]; let sMtx = [0,0,0]; joRMS = 0; joRMSS = 0; let countIncluded = 0; for (let i = 0; i < data.dataGrid.length; i++ ) { if(data.dataGrid[i].include) { countIncluded++; joRMS += Math.pow(Number(data.dataGrid[i].fExp)-Number(data.dataGrid[i].fCalc), 2); joRMSS += Math.pow(Number(data.dataGrid[i].sExp)-Number(data.dataGrid[i].sCalc), 2); iMtx[0][0] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].u2); iMtx[0][1] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].u4); iMtx[0][2] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].u6); iMtx[1][0] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].u2); iMtx[1][1] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].u4); iMtx[1][2] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].u6); iMtx[2][0] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].u2); iMtx[2][1] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].u4); iMtx[2][2] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].u6); sMtx[0] += 2*Number(data.dataGrid[i].u2)*Number(data.dataGrid[i].sExp); sMtx[1] += 2*Number(data.dataGrid[i].u4)*Number(data.dataGrid[i].sExp); sMtx[2] += 2*Number(data.dataGrid[i].u6)*Number(data.dataGrid[i].sExp);} } let outputMtx; try { outputMtx = math.multiply(math.inv(iMtx), sMtx); } catch { outputMtx = [NaN,NaN,NaN]; } joRMS = Math.sqrt(joRMS / (countIncluded-3)); joRMSS = Math.sqrt(joRMSS / (countIncluded-3)); mtxCacheOutput = outputMtx; value = mtxCacheOutput[0].toPrecision(3); }",
                         key: "jo2",
                         type: "textfield",
                         labelWidth: 15,
@@ -1853,7 +1853,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          "value = calculateErrorJO(data,0).toPrecision(3);",
+                          "if (data.radioInputType == 'JO') value = ''; else value = calculateErrorJO(data,0).toPrecision(3);",
                         key: "errjo2",
                         type: "textfield",
                         labelWidth: 15,
@@ -1872,7 +1872,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          "value = calculateErrorJO(data,1).toPrecision(3);",
+                          "if (data.radioInputType == 'JO') value = ''; else value = calculateErrorJO(data,1).toPrecision(3);",
                         key: "errjo4",
                         type: "textfield",
                         labelWidth: 15,
@@ -1891,7 +1891,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          "value = calculateErrorJO(data,2).toPrecision(3);",
+                          "if (data.radioInputType == 'JO') value = ''; else value = calculateErrorJO(data,2).toPrecision(3);",
                         key: "errjo6",
                         type: "textfield",
                         labelWidth: 15,
@@ -1911,7 +1911,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          'value = data.radioInputType=="JO" ? data.jo2/data.jo4 : (mtxCacheOutput[0]/mtxCacheOutput[1]).toFixed(2);',
+                          'value = data.radioInputType=="JO" ? (data.jo2/data.jo4).toFixed(2) : (mtxCacheOutput[0]/mtxCacheOutput[1]).toFixed(2);',
                         key: "jo2jo4",
                         type: "textfield",
                         labelWidth: 15,
@@ -1928,7 +1928,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          'value = data.radioInputType=="JO" ? data.jo2/data.jo6 : (mtxCacheOutput[0]/mtxCacheOutput[2]).toFixed(2);',
+                          'value = data.radioInputType=="JO" ? (data.jo2/data.jo6).toFixed(2) : (mtxCacheOutput[0]/mtxCacheOutput[2]).toFixed(2);',
                         key: "jo2jo6",
                         type: "textfield",
                         labelWidth: 15,
@@ -1951,7 +1951,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          'value = data.radioInputType=="JO" ? data.jo4/data.jo2 : (mtxCacheOutput[1]/mtxCacheOutput[0]).toFixed(2);',
+                          'value = data.radioInputType=="JO" ? (data.jo4/data.jo2).toFixed(2) : (mtxCacheOutput[1]/mtxCacheOutput[0]).toFixed(2);',
                         key: "jo4jo2",
                         type: "textfield",
                         labelWidth: 15,
@@ -1969,7 +1969,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          'value = data.radioInputType=="JO" ? data.jo4/data.jo6 : (mtxCacheOutput[1]/mtxCacheOutput[2]).toFixed(2);',
+                          'value = data.radioInputType=="JO" ? (data.jo4/data.jo6).toFixed(2) : (mtxCacheOutput[1]/mtxCacheOutput[2]).toFixed(2);',
                         key: "jo4jo6",
                         type: "textfield",
                         labelWidth: 15,
@@ -2008,7 +2008,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          'value = data.radioInputType=="JO" ? data.jo6/data.jo2 : (mtxCacheOutput[2]/mtxCacheOutput[0]).toFixed(2);',
+                          'value = data.radioInputType=="JO" ? (data.jo6/data.jo2).toFixed(2) : (mtxCacheOutput[2]/mtxCacheOutput[0]).toFixed(2);',
                         key: "jo6jo2",
                         type: "textfield",
                         labelWidth: 15,
@@ -2026,7 +2026,7 @@ const formLayout = {
                         tableView: true,
                         clearOnHide: false,
                         calculateValue:
-                          'value = data.radioInputType=="JO" ? data.jo6/data.jo4 : (mtxCacheOutput[2]/mtxCacheOutput[1]).toFixed(2);',
+                          'value = data.radioInputType=="JO" ? (data.jo6/data.jo4).toFixed(2) : (mtxCacheOutput[2]/mtxCacheOutput[1]).toFixed(2);',
                         key: "jo6jo4",
                         type: "textfield",
                         labelWidth: 15,
@@ -2072,7 +2072,7 @@ const formLayout = {
               trigger: {
                 type: "javascript",
                 javascript:
-                  "result = data.radioInputType=='JO' ? !userLoggedIn : true;",
+                  "result = data.radioInputType=='JO' ? !(userLoggedIn || userLoginOverride) : true;",
               },
               actions: [
                 {
@@ -2131,7 +2131,7 @@ const formLayout = {
               trigger: {
                 type: "javascript",
                 javascript:
-                  "result = data.radioInputType=='JO' ? userLoggedIn : true;",
+                  "result = data.radioInputType=='JO' ? (userLoggedIn || userLoginOverride) : true;",
               },
               actions: [
                 {
