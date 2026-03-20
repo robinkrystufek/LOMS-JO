@@ -8,7 +8,7 @@ This repository hosts the interactive online tool for performing Judd–Ofelt an
 - Classical and combinatorial Judd–Ofelt analysis
 - Transitional analysis
 - Step-by-step [user guide][doc]
-- Reference [datasets][ref] and [database of JO parameters][db] for validation
+- Reference [datasets][ref] and integration with [database of JO parameters][db] for data validation
 - Front-end only JS+HTML design, ensuring data is processed locally without uploading requirements
 - For more information, visit the LOMS [website][LOMSJO]
 
@@ -27,7 +27,7 @@ This work is licensed under a [Creative Commons Attribution-NonCommercial-NoDeri
 
 [![CC BY-NC-ND 4.0][cc-by-nc-nd-image]][cc-by-nc-nd]
 
-[db]: https://www.loms.cz/jo-database/
+[db]: https://www.loms.cz/jo-db/
 [ref]: https://www.loms.cz/modules/judd-ofelt-analysis/#wpsm_accordion_146
 [doc]: https://www.loms.cz/modules/judd-ofelt-analysis/
 [LOMSJO]: https://www.loms.cz/jo/
