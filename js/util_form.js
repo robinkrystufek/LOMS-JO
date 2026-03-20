@@ -164,17 +164,33 @@ function processTabQuery() {
  * @returns {void}
  * Processes analysis GET query parameters from the URL and updates the form data accordingly.
  * e.g. ?n=1.585&jo2=0.4327&jo4=1.1224&jo6=1.0071&RE=Sm&sample_id=Record%201887%20(10.1016/j.jallcom.2026.186989)
+ *      ?RE=Er&sample_id=Er_fEXP_Hrabovsky2025&input=Reference%20data%20for%20Er%20-%20see%20www.loms.cz%20documentation%20for%20more%20details%2C%2C%2C%2C%2C%2C%2C%0D%0Aref_index_type%2Csellmeier%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_A%2C1%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_B1%2C2.644%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_C1%2C0.0222%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_B2%2C0.085%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_C2%2C0.091%2C%2C%2C%2C%2C%2C%0D%0AData%20source%3A%20oscillator%20strength%20(fexp)%20for%20calculation%20of%20JO2%2C%20JO4%20and%20JO6%20parameters%20and%20radiative%20properties%20Hrabovsky%20(2024)%2C%2C%2C%2C%2C%2C%0D%0Aexcited_state%2Cu2%2Cu4%2Cu6%2Cfexp%2Cmean_peak_wl_nm%2Crefractive_index%2Cbarycenter%0D%0A4I15%2F2%2C0%2C0%2C0%2C0%2C0%2C%2C109%0D%0A4I13%2F2%2C0.0194984%2C0.1173353%2C1.4316383%2C0.00000219974%2C1520%2C%2C6570%0D%0A4I11%2F2%2C0.0281916%2C0.0003049%2C0.3952644%2C0.000000848%2C974%2C%2C10202%0D%0A4I9%2F2%2C0.1181329%2C0%2C0.0099097%2C0.000000623%2C801%2C%2C12412%0D%0A4F9%2F2%2C0%2C0.5353863%2C0.4617945%2C0.000003799%2C655%2C%2C15237%0D%0A4S3%2F2%2C0%2C0%2C0.2211363%2C0.000000681%2C544%2C%2C18359%0D%0A2H11%2F2%2C0.712554%2C0.4123647%2C0.0924666%2C0.00001714%2C521%2C%2C19110%0D%0A4F7%2F2%2C0%2C0.1468776%2C0.6265381%2C0.000002636%2C489%2C%2C20448%0D%0A4F5%2F2%2C0%2C0%2C0.2232101%2C0%2C453.0216544%2C%2C22074%0D%0A4F3%2F2%2C0%2C0%2C0.1272004%2C0%2C445.990545%2C%2C22422%0D%0A2H9%2F2%2C0%2C0.0189597%2C0.2255537%2C0%2C408.0799837%2C%2C24505%0D%0A4G11%2F2%2C0.918357%2C0.5260874%2C0.117176%2C0%2C377.4154589%2C%2C26496%0D%0A4G9%2F2%2C0%2C0.2415402%2C0.1234371%2C0%2C363.9275056%2C%2C27478%0D%0A2K15%2F2%2C0.0219741%2C0.004095%2C0.0757543%2C0%2C359.6992914%2C%2C27801%0D%0A2G7%2F2%2C0%2C0.0174109%2C0.1163147%2C0%2C357.4109153%2C%2C27979%0D%0A2P3%2F2%2C0%2C0%2C0.0172%2C0%2C315.9258206%2C%2C31653%0D%0A2K13%2F2%2C0.0032%2C0.0029%2C0.0152%2C0%2C302.2517757%2C%2C33085%0D%0A4G5%2F2%2C0%2C0%2C0.0026%2C0%2C299.4998353%2C%2C33389%0D%0A2P1%2F2%2C0%2C0%2C0%2C0%2C298.9268526%2C%2C33453%0D%0A4G7%2F2%2C0%2C0.0334%2C0.0029%2C0%2C293.9274587%2C%2C34022%0D%0A2D5%2F2%2C0%2C0%2C0.0228%2C0%2C287.3563218%2C%2C34800%0D%0A
+ *      ?RE=Er&sample_id=Er_sigma_Hrabovsky2024&input=Reference%20data%20for%20Er%20-%20see%20www.loms.cz%20documentation%20for%20more%20details%2C%2C%2C%2C%2C%2C%2C%0D%0Aref_index_type%2Csellmeier%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_A%2C1%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_B1%2C2.63526%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_C1%2C0.01608%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_B2%2C0.32898%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_C2%2C0.07885%2C%2C%2C%2C%2C%2C%0D%0A"Data%20source%3A%20absorption%20cross%20section%20for%20calculation%20of%20JO2%2C%20JO4%20and%20JO6%20parameters%20and%20radiative%20properties%20Hrabovsky%20(2024)"%2C%2C%2C%2C%2C%2C%2C%0D%0Aexcited_state%2Cu2%2Cu4%2Cu6%2Csigma%2Cmean_peak_wl_nm%2Crefractive_index%2Cbarycenter%0D%0A4I15%2F2%2C0%2C0%2C0%2C0%2C0%2C%2C109%0D%0A4I13%2F2%2C0.0194984%2C0.1173353%2C1.4316383%2C7E-19%2C1520%2C%2C6570%0D%0A4I11%2F2%2C0.0281916%2C0.0003049%2C0.3952644%2C9.41E-20%2C974%2C%2C10202%0D%0A4I9%2F2%2C0.1181329%2C0%2C0.0099097%2C3.41E-20%2C801%2C%2C12412%0D%0A4F9%2F2%2C0%2C0.5353863%2C0.4617945%2C1.48E-19%2C655%2C%2C15237%0D%0A4S3%2F2%2C0%2C0%2C0.2211363%2C1.95E-20%2C544%2C%2C18359%0D%0A2H11%2F2%2C0.712554%2C0.4123647%2C0.0924666%2C4.21E-19%2C521%2C%2C19110%0D%0A4F7%2F2%2C0%2C0.1468776%2C0.6265381%2C6.53E-20%2C489%2C%2C20448%0D%0A4F5%2F2%2C0.0000000%2C0.0000000%2C0.2232101%2C0%2C453.0216544%2C%2C22074.0000000%0D%0A4F3%2F2%2C0.0000000%2C0.0000000%2C0.1272004%2C0%2C445.9905450%2C%2C22422.0000000%0D%0A2H9%2F2%2C0.0000000%2C0.0189597%2C0.2255537%2C0%2C408.0799837%2C%2C24505.0000000%0D%0A4G11%2F2%2C0.9183570%2C0.5260874%2C0.1171760%2C0%2C377.4154589%2C%2C26496.0000000%0D%0A4G9%2F2%2C0.0000000%2C0.2415402%2C0.1234371%2C0%2C363.9275056%2C%2C27478.0000000%0D%0A2K15%2F2%2C0.0219741%2C0.0040950%2C0.0757543%2C0%2C359.6992914%2C%2C27801.0000000%0D%0A2G7%2F2%2C0.0000000%2C0.0174109%2C0.1163147%2C0%2C357.4109153%2C%2C27979.0000000%0D%0A2P3%2F2%2C0.0000000%2C0.0000000%2C0.0172000%2C0%2C315.9258206%2C%2C31653.0000000%0D%0A2K13%2F2%2C0.0032000%2C0.0029000%2C0.0152000%2C0%2C302.2517757%2C%2C33085.0000000%0D%0A4G5%2F2%2C0.0000000%2C0.0000000%2C0.0026000%2C0%2C299.4998353%2C%2C33389.0000000%0D%0A2P1%2F2%2C0.0000000%2C0.0000000%2C0.0000000%2C0%2C298.9268526%2C%2C33453.0000000%0D%0A4G7%2F2%2C0.0000000%2C0.0334000%2C0.0029000%2C0%2C293.9274587%2C%2C34022.0000000%0D%0A2D5%2F2%2C0.0000000%2C0.0000000%2C0.0228000%2C0%2C287.3563218%2C%2C34800.0000000
+ *      ?RE=Tm&sample_id=Tm_SD&input=Please%20visit%20www.loms.cz%20for%20instructions%20how%20to%20fill%20this%20input%20file.%2C%2C%2C%2C%2C%2C%2C%0D%0Aref_index_type%2Csellmeier%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_A%2C-10.3322%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_B1%2C12.44319%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_C1%2C9.54E-04%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_B2%2C0%2C%2C%2C%2C%2C%2C%0D%0Asellmeier_C2%2C0%2C%2C%2C%2C%2C%2C%0D%0APlease%20visit%20www.loms.cz%20for%20instructions%20how%20to%20fill%20this%20input%20file.%2C%2C%2C%2C%2C%2C%2C%0D%0Aexcited_state%2Cu2%2Cu4%2Cu6%2Csigma%2Cmean_peak_wl_nm%2Crefractive_index%2Cbarycenter%0D%0A3H6%2C0%2C0%2C0%2C0%2C0%2C%2C0%0D%0A3F4%2C0.5374299%2C0.726107%2C0.2382114%2C8.20E-19%2C1650%2C%2C5811%0D%0A3H5%2C0.1073904%2C0.2314197%2C0.6383669%2C1.98E-19%2C1210%2C%2C8390%0D%0A3H4%2C0.237284%2C0.1090403%2C0.594718%2C1.84E-19%2C790%2C%2C12720%0D%0A3F3%2C0%2C0.3164234%2C1.0991731%2C8.73E-20%2C683%2C%2C14510%0D%0A1G4%2C0.0482625%2C0.0748364%2C0.0124885%2C2.99E-20%2C468%2C%2C21374%0D%0A1D2%2C0%2C0.3156233%2C0.0927906%2C3.07E-20%2C356%2C%2C28032%0D%0A
  */
 function processAnalysisQuery() {
+    if (queryImportComplete) return;
+    queryImportComplete = true;
     userLoginOverride = true;
     const urlParams = new URLSearchParams(window.location.search);
-    const sampleId = urlParams.get("sample_id");
-    if (sampleId) formRef.data.sampleName = sampleId;
+    const sampleId = urlParams.get("sample_id") || "";
+    const input = urlParams.get("input");
+    if(input) {
+        formRef.data.sampleName = sampleId;
+        let inputStr = decodeURIComponent(input);
+        if (!inputStr) return;
+        let arrImport = CSVToArray(inputStr, ",");
+        var panel = formRef.getComponent("dataImportPanel");
+        panel.collapsed = true;
+        importArrayCSV(arrImport);      
+        return;
+    }
     const n = urlParams.get("n");
     const jo2 = urlParams.get("jo2");
     const jo4 = urlParams.get("jo4");
     const jo6 = urlParams.get("jo6");
-    if (n && jo2 && jo4 && jo6) {
+    if (n && jo2) {
+        formRef.data.sampleName = sampleId;
         formRef.data.radioInputType = "JO";
         formRef.data.jo2 = jo2;
         formRef.data.jo4 = jo4;
@@ -192,13 +208,14 @@ function processAnalysisQuery() {
         panel.collapsed = false;
         panel.redraw();
         setTimeout(() => {
-            const el = document.querySelector('.formio-component-showMore');
+            const el = document.querySelector('.formio-component-calculateTransitionsButtonJO');
             if (!el) return;
-            el.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
+            const y = el.getBoundingClientRect().top - 195;
+            window.scrollTo({
+              top: y,
+              behavior: 'instant'
             });
-        }, 200);
+          }, 200);
     }
 }    
 // chart functions
