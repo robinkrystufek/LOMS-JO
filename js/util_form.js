@@ -208,9 +208,9 @@ function processAnalysisQuery() {
         panel.collapsed = false;
         panel.redraw();
         setTimeout(() => {
-            const el = document.querySelector('.formio-component-calculateTransitionsButtonJO');
+            const el = document.querySelector('.formio-component-downloadReportJO');
             if (!el) return;
-            const y = el.getBoundingClientRect().top - 195;
+            const y = el.getBoundingClientRect().top - 104;
             window.scrollTo({
               top: y,
               behavior: 'instant'

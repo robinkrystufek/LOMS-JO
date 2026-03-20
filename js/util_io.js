@@ -77,6 +77,9 @@ function downloadReferenceData() {
         link.click();
     }
 }
+function quickExampleLoad() {
+    if (quickReference.hasOwnProperty(re_edit)) window.location.href = quickReference[re_edit];
+}
 function browserCheck(ext = "csv") {
     if(window.safari !== undefined) alert("Safari does not support downloading files from this application with proper filename. File content is not affected. Please append ."+ext+" extension to the downloaded file name or use another browser.");
 }
@@ -154,6 +157,7 @@ function readFile(file) {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
         const result = event.target.result;
+        console.log(encodeURI(result));
         let arrImport = CSVToArray(result, ",");
         document.querySelector("#filereport").textContent = JSON.stringify(arrImport);
         var panel = formRef.getComponent("dataImportPanel");

@@ -1141,7 +1141,7 @@ const formLayout = {
           key: "dataImportPanel",
           type: "panel",
           label: "Panel",
-          collapsed: true,
+          collapsed: false,
           input: false,
           tableView: false,
           components: [
@@ -1151,7 +1151,7 @@ const formLayout = {
               key: "table",
               type: "table",
               numRows: 2,
-              numCols: 3,
+              numCols: 4,
               input: false,
               tableView: false,
               rows: [
@@ -1173,61 +1173,6 @@ const formLayout = {
                         ],
                         refreshOnChange: false,
                         key: "importFile",
-                        type: "htmlelement",
-                        input: false,
-                        tableView: false,
-                      },
-                    ],
-                  },
-                  {
-                    components: [
-                      {
-                        label: "Example data",
-                        action: "event",
-                        showValidations: false,
-                        theme: "secondary",
-                        rightIcon: "fa fa-download",
-                        tableView: false,
-                        key: "downloadTemplateDataButton2",
-                        type: "button",
-                        event: "downloadReferenceData",
-                        input: true,
-                        logic: [
-                          {
-                            name: "exampleNotAvailable",
-                            trigger: {
-                              type: "javascript",
-                              javascript:
-                                "result =!filenamesReference.hasOwnProperty(re_edit);",
-                            },
-                            actions: [
-                              {
-                                name: "disable",
-                                type: "property",
-                                property: {
-                                  label: "Disabled",
-                                  value: "disabled",
-                                  type: "boolean",
-                                },
-                                state: true,
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      {
-                        label: "HTMLspan",
-                        tag: "span",
-                        attrs: [
-                          {
-                            attr: "id",
-                            value: "spanTooltipCustom",
-                          },
-                        ],
-                        refreshOnChange: false,
-                        key: "htmlspan1",
-                        content:
-                          "<i data-tooltip='In case of download problems or for detailed information about example data files, see <a href=\"https://www.loms.cz/modules/judd-ofelt-analysis/\">documentation</a>.' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>",
                         type: "htmlelement",
                         input: false,
                         tableView: false,
@@ -1267,6 +1212,99 @@ const formLayout = {
                       },
                     ],
                   },
+                  {
+                    components: [
+                      {
+                        label: "Example data",
+                        action: "event",
+                        showValidations: false,
+                        theme: "secondary",
+                        rightIcon: "fa fa-download",
+                        tableView: false,
+                        key: "downloadTemplateDataButton2",
+                        type: "button",
+                        event: "downloadReferenceData",
+                        input: true,
+                        logic: [
+                          {
+                            name: "exampleNotAvailable",
+                            trigger: {
+                              type: "javascript",
+                              javascript:
+                                "result = !filenamesReference.hasOwnProperty(re_edit);",
+                            },
+                            actions: [
+                              {
+                                name: "disable",
+                                type: "property",
+                                property: {
+                                  label: "Disabled",
+                                  value: "disabled",
+                                  type: "boolean",
+                                },
+                                state: true,
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        label: "HTMLspan",
+                        tag: "span",
+                        attrs: [
+                          {
+                            attr: "id",
+                            value: "spanTooltipCustom",
+                          },
+                        ],
+                        refreshOnChange: false,
+                        key: "htmlspan1",
+                        content:
+                          "<i data-tooltip='In case of download problems or for detailed information about example data files, see <a href=\"https://www.loms.cz/modules/judd-ofelt-analysis/\">documentation</a>.' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i>",
+                        type: "htmlelement",
+                        input: false,
+                        tableView: false,
+                      },
+                    ],
+                  },
+                  {
+                    components: [
+                      {
+                        label: "Quick example",
+                        action: "event",
+                        showValidations: false,
+                        theme: "secondary",
+                        rightIcon: "fa fa-question",
+                        tableView: false,
+                        key: "quickExampleButton",
+                        type: "button",
+                        event: "quickExampleLoad",
+                        input: true,
+                        logic: [
+                          {
+                            name: "quickExampleNotAvailable",
+                            trigger: {
+                              type: "javascript",
+                              javascript:
+                                "result = !quickReference.hasOwnProperty(re_edit);",
+                            },
+                            actions: [
+                              {
+                                name: "disable",
+                                type: "property",
+                                property: {
+                                  label: "Disabled",
+                                  value: "disabled",
+                                  type: "boolean",
+                                },
+                                state: true,
+                              },
+                            ],
+                          },
+                        ],
+                      }
+                    ],
+                  }
                 ],
                 [
                   {
