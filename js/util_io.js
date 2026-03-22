@@ -138,7 +138,7 @@ function importArrayCSV(arr) {
         });
     });
     formRef.triggerRedraw();
-    document.getElementById("overlayloading").style.display = "none";
+    hideLoadingOverlay();
 }
 function readFile(file) {
     if(formRef.data.sampleName != "") {

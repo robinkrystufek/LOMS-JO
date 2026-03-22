@@ -164,6 +164,7 @@ function calcTransitions() {
 }
 function calcCombinations() {
     document.getElementById("overlayloading").style.display = "block";
+    analysisComplete = false;
     showProgressBar();  
     progressPercent = 10;
     updateProgressBar(progressPercent);
@@ -374,11 +375,15 @@ function calcCombinationsWorker() {
     else {
         reportString = "Only 4 options entered";
         document.getElementById("overlayloading").style.display = "none";
+        analysisComplete = true;
         hideProgressBar();
     }
     formRef.getComponent("statJOreport").component.content = reportString;
     formRef.getComponent('htmldivtablecontainer').component.content = "<table style='width:100%; text-align: center;'><thead><tr><th>Datased used</th><th>Median JO2</th><th>Median JO4</th><th>Median JO6</th><th>Median lifetime</th><th>Min lifetime</th><th>Max lifetime</th></tr></thead><tbody><tr><td>Full set</td><td>" + seriesDataY.jo2[0].toPrecision(3) + " cm²</td><td>" + seriesDataY.jo4[0].toPrecision(3) + " cm²</td><td>" + seriesDataY.jo6[0].toPrecision(3) + " cm²</td><td>" + seriesDataY.lifetime[0].toPrecision(3) + " ms</td><td>" + seriesDataY.lifetime[0].toPrecision(3) + " ms</td><td>" + seriesDataY.lifetime[0].toPrecision(3) + " ms</td></tr><tr><td>All combinations</td><td>" + getMedian(seriesDataY.jo2).toPrecision(3) + " cm²</td><td>" + getMedian(seriesDataY.jo4).toPrecision(3) + " cm²</td><td>" + getMedian(seriesDataY.jo6).toPrecision(3) + " cm²</td><td>" + getMedian(seriesDataY.lifetime).toPrecision(3) + " ms</td><td>" + getMin(seriesDataY.lifetime).toPrecision(3) + " ms</td><td>" + getMax(seriesDataY.lifetime).toPrecision(3) + " ms</td></tr><tr><td>Reduced (Only positive)</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo2)).toPrecision(3) + " cm²</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo4)).toPrecision(3) + " cm²</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.jo6)).toPrecision(3) + " cm²</td><td>" + getMedian(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMin(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMax(getPositiveArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td></tr><tr><td>Reduced (Box plot)<i data-tooltip='Box plot median within 1.5 × 25-75 percentile range' class='fa fa-question-circle text-muted' ref='tooltip' aria-expanded='false'></i></td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo2)).toPrecision(3) + " cm²</td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo4)).toPrecision(3) + " cm²</td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.jo6)).toPrecision(3) + " cm²</td><td>" + getMedian(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMin(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td><td>" + getMax(getBoxPlotArray(seriesDataY,seriesDataY.lifetime)).toPrecision(3) + " ms</td></tr></tbody></table><br>";
-    formRef.redraw();
+    
+    if(!analysisImportRequested) formRef.redraw();
+   /* formRef.getComponent("statJOreport").redraw();
+    formRef.getComponent("htmldivtablecontainer").redraw();*/
     setTimeout(function () {
         progressPercent = 40;
         renderGraph(seriesData, labelGraphList);

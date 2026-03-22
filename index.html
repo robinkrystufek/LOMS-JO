@@ -168,8 +168,10 @@
   </div>
   <script type="text/javascript">
     var userLoggedIn = false;
-    var userLoginOverride = false; // set this to true to disable the login wall
+    var userLoginOverride = true; // set this to true to disable the login wall
     var queryImportComplete = false;
+    var analysisComplete = false;
+    var analysisImportRequested = false;
     var formRef = 0;
     var mtxCacheOutput = [0, 0, 0], joRMS = 0;
     var linkCombinations = 0, linkTranstions = 0; linkJO = 0;
@@ -191,7 +193,7 @@
       form.on("change", processChange);  
       form.on("render", function (submission) {
         processAnalysisQuery();
-        document.getElementById("overlayloading").style.display = "none";
+        hideLoadingOverlay();
       });        
     });
   </script>
